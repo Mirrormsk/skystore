@@ -1,0 +1,74 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}
+    Contacts
+{% endblock %}
+
+{% block body %}
+    <section class="Material-contact-section section-padding section-dark my-5">
+        <div class="container">
+            <div class="row">
+                <!-- Section Titile -->
+                <div class="col-md-12 wow animated fadeInLeft" data-wow-delay=".2s">
+                    <h1 class="section-title">Связаться с нами</h1>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Section Titile -->
+                <div class="col-md-6 mt-3 contact-widget-section2 wow animated fadeInLeft" data-wow-delay=".2s">
+                    <p>Вы можете связаться с нами по контактам, указанным ниже, либо отправить сообщение через форму обратной связи.</p>
+
+                    <div class="find-widget">
+                        Company: <a href="https://hostriver.ro">SkyStore</a>
+                    </div>
+                    <div class="find-widget">
+                        Адрес: <a href="#">4435 Berkshire Circle Knoxville</a>
+                    </div>
+                    <div class="find-widget">
+                        Телефон: <a href="tel: +79999999999">+7 999-999-9999</a>
+                    </div>
+
+                    <div class="find-widget">
+                        Время работы: <a href="#">ПН - ВТ: 09:00 - 21:00</a>
+                    </div>
+                </div>
+                <!-- contact form -->
+                <div class="col-md-6 wow animated fadeInRight" data-wow-delay=".2s">
+                    <form class="shake" role="form" method="post" id="contactForm" name="contact-form"
+                          data-toggle="validator">
+                        {% csrf_token %}
+                        <!-- Name -->
+                        <div class="form-group label-floating">
+                            <label class="control-label" for="name">Имя</label>
+                            <input class="form-control" id="name" type="text" name="name" required=""
+                                   data-error="Please enter your name">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <!-- email -->
+                        <div class="form-group label-floating">
+                            <label class="control-label" for="email">Email</label>
+                            <input class="form-control" id="email" type="email" name="email" required=""
+                                   data-error="Please enter your Email">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <!-- Message -->
+                        <div class="form-group label-floating">
+                            <label for="message" class="control-label">Сообщение</label>
+                            <textarea class="form-control" rows="3" id="message" name="message" required=""
+                                      data-error="Write your message"></textarea>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <!-- Form Submit -->
+                        <div class="form-submit mt-5">
+                            <button class="btn btn-primary" type="submit" id="form-submit"><i
+                                    class="material-icons mdi mdi-message-outline"></i>Отправить сообщение
+                            </button>
+                            <div id="msgSubmit" class="h3 text-center hidden"></div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
