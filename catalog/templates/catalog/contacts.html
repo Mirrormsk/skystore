@@ -16,7 +16,8 @@
             <div class="row">
                 <!-- Section Titile -->
                 <div class="col-md-6 mt-3 contact-widget-section2 wow animated fadeInLeft" data-wow-delay=".2s">
-                    <p>Вы можете связаться с нами по контактам, указанным ниже, либо отправить сообщение через форму обратной связи.</p>
+                    <p>Вы можете связаться с нами по контактам, указанным ниже, либо отправить сообщение через форму
+                        обратной связи.</p>
 
                     <div class="find-widget">
                         Company: <a href="https://hostriver.ro">SkyStore</a>
@@ -58,6 +59,17 @@
                                       data-error="Write your message"></textarea>
                             <div class="help-block with-errors"></div>
                         </div>
+
+                        <!-- Confirmation message -->
+                        {% if messages %}
+                            <br>
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
                         <!-- Form Submit -->
                         <div class="form-submit mt-5">
                             <button class="btn btn-primary" type="submit" id="form-submit"><i

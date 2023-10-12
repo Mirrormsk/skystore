@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 
 from .services import messages_saver
 
@@ -14,7 +15,8 @@ def index(request):
 def contacts(request):
     """Функция отображения страницы контактов"""
     if request.method == "POST":
-        print(request.POST)
+
         messages_saver.save_message(request.POST)
+        messages.info(request, 'Ваше сообщение принято и будет обработано')
 
     return render(request, "catalog/contacts.html", {'nbar': 'contacts'})
