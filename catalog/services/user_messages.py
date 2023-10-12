@@ -2,11 +2,12 @@ import csv
 import os.path
 from datetime import datetime
 
+
 class CSVSaver:
 
     def __init__(self, csv_file_path: str):
         self.file_path = csv_file_path
-        self.fieldnames = ['name', 'email', 'message']
+        self.fieldnames = ['name', 'email', 'message', 'timestamp']
         self.data: list = self.load()
 
     def load(self) -> list:
@@ -22,7 +23,6 @@ class CSVSaver:
     def save(self):
         with open(self.file_path, 'w', encoding='utf-8') as csv_out:
             writer = csv.DictWriter(csv_out, delimiter=';', fieldnames=self.fieldnames)
-            writer.writeheader()
             writer.writerows(self.data)
 
 
@@ -30,7 +30,6 @@ class UserMessagesSaver(CSVSaver):
 
     def __init__(self, csv_file_path: str):
         super().__init__(csv_file_path)
-        self.fieldnames = ['name', 'email', 'message', 'timestamp']
 
     def save_message(self, post_data: dict):
         data = {
@@ -45,6 +44,3 @@ class UserMessagesSaver(CSVSaver):
 
 
 messages_saver = UserMessagesSaver(os.path.join('catalog', 'files', 'user_messages.csv'))
-
-
-
