@@ -20,18 +20,18 @@
                         обратной связи.</p>
 
                     <div class="find-widget">
-                        Company: <a href="https://hostriver.ro">SkyStore</a>
+                        <h3>{{ organization.name }}</h3>
                     </div>
                     <div class="find-widget">
-                        Адрес: <a href="#">4435 Berkshire Circle Knoxville</a>
+                        Адрес: <a href="#">{{ organization.address }}</a>
                     </div>
                     <div class="find-widget">
-                        Телефон: <a href="tel: +79999999999">+7 999-999-9999</a>
+                        Телефон: <a href="tel: {{ organization.phone }}">{{ organization.phone }}</a>
+                    </div>
+                    <div class="find-widget">
+                        Email: <a href="mailto: {{ organization.email }}">{{ organization.email }}</a>
                     </div>
 
-                    <div class="find-widget">
-                        Время работы: <a href="#">ПН - ВТ: 09:00 - 21:00</a>
-                    </div>
                 </div>
                 <!-- contact form -->
                 <div class="col-md-6 wow animated fadeInRight" data-wow-delay=".2s">

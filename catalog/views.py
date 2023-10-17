@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib import messages
 
 from .services import messages_saver
-from .models import Product
+from .models import Product, Organization
 
 
 # Create your views here.
@@ -19,4 +19,4 @@ def contacts(request):
         messages_saver.save_message(request.POST)
         messages.info(request, 'Ваше сообщение принято и будет обработано')
 
-    return render(request, "catalog/contacts.html", {'nbar': 'contacts'})
+    return render(request, "catalog/contacts.html", {'nbar': 'contacts', 'organization': Organization.objects.get(pk=1)})
