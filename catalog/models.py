@@ -19,7 +19,7 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-class Category(TimeStampedModel):
+class Category(models.Model):
     """Category model """
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(**NULLABLE, verbose_name='Описание')
