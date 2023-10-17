@@ -46,3 +46,13 @@ class Product(TimeStampedModel):
 
     def __str__(self):
         return f"{self.name} ({self.category.name})"
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Наименование')
+    address = models.CharField(max_length=255, verbose_name='Адрес')
+    phone = models.CharField(max_length=20, verbose_name='Телефон')
+    email = models.EmailField(verbose_name='Email')
+
+    def __str__(self):
+        return self.name
