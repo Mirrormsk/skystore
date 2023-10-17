@@ -1,0 +1,26 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Одежда",
+      "description": "От классических базовых вещей до последних трендов"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Аксессуары",
+      "description": null
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Товары для дома",
+      "description": "Все для создания уюта в доме"
+    }
+  }
+]
