@@ -1,5 +1,5 @@
-from django.core.management import BaseCommand
-from django.db import models
+from django.core.management import BaseCommand, call_command
+from django.db import models, transaction
 
 from catalog.models import Category, Product
 
@@ -7,9 +7,15 @@ from catalog.models import Category, Product
 class Command(BaseCommand):
 
     @staticmethod
-    def delete_everything(self, model: models.Model) -> None:
+    def delete_everything(model: models.Model) -> None:
         """Delete all objects from model"""
         model.objects.all().delete()
 
+    @transaction.atomic()
     def handle(self, *args, **options):
-        pass
+
+        # Clear tables
+        for model in (Category, Product):
+            self.delete_everything(model)
+
+        call_command('loaddata', 'catalog_data.json')
