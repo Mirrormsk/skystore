@@ -54,5 +54,9 @@ class Organization(models.Model):
     phone = models.CharField(max_length=20, verbose_name='Телефон')
     email = models.EmailField(verbose_name='Email')
 
+    class Meta:
+        verbose_name = 'организация'
+        verbose_name_plural = 'организации'
+
     def __str__(self):
         return self.name

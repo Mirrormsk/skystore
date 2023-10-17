@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Category, Product
+from catalog.models import Category, Product, Organization
 
 
 # Register your models here.
@@ -8,7 +8,7 @@ from catalog.models import Category, Product
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name',)
-    ordering = ('pk', )
+    ordering = ('pk',)
 
 
 @admin.register(Product)
@@ -18,3 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
     ordering = ('-pk',)
 
+
+@admin.register(Organization)
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'phone', 'email')
