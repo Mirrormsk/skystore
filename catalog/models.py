@@ -29,7 +29,7 @@ class Category(models.Model):
         verbose_name_plural = 'категории'
 
     def __str__(self):
-        return f"Category <{self.name}>"
+        return f"{self.name}"
 
 
 class Product(TimeStampedModel):
