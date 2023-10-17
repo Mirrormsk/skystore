@@ -24,6 +24,10 @@ class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(**NULLABLE, verbose_name='Описание')
 
+    class Meta:
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
+
     def __str__(self):
         return f"Category <{self.name}>"
 
@@ -35,3 +39,10 @@ class Product(TimeStampedModel):
     preview = models.ImageField(upload_to='catalog/', verbose_name='Изображение', **NULLABLE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     price = models.IntegerField(verbose_name='Цена')
+
+    class Meta:
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
+
+    def __str__(self):
+        return f"{self.name} ({self.category.name})"
