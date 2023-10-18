@@ -10,7 +10,13 @@ from .models import Product, Organization
 
 def index(request):
     """Функция отображения главной страницы"""
-    return render(request, "catalog/index.html", {'nbar': 'home', 'products': Product.objects.all()[:5]})
+    context = {
+        'nbar': 'home',
+        'title': 'Главная',
+        'products': Product.objects.all()[:5]
+    }
+
+    return render(request, "catalog/index.html", context)
 
 
 def contacts(request):
@@ -19,4 +25,10 @@ def contacts(request):
         messages_saver.save_message(request.POST)
         messages.info(request, 'Ваше сообщение принято и будет обработано')
 
-    return render(request, "catalog/contacts.html", {'nbar': 'contacts', 'organization': Organization.objects.get(pk=1)})
+    context = {
+        'nbar': 'contacts',
+        'title': 'Контакты',
+        'organization': Organization.objects.get(pk=1)
+    }
+
+    return render(request, "catalog/contacts.html", context)
