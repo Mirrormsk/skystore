@@ -1,6 +1,6 @@
 {% extends 'catalog/base.html' %}
 {% load static %}
-
+{% load price_format %}
 
 {% block body %}
 
@@ -39,7 +39,7 @@
                             {#                        <span class="me-1">#}
                             {#                            <del>$200</del>#}
                             </span>
-                            <span>{{ product.price }}</span>
+                            <span>{{ product.price|price_format }}</span>
                         </p>
 
                         <strong><p style="font-size: 20px;">Описание</p></strong>
