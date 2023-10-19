@@ -1,4 +1,5 @@
 {% extends 'catalog/base.html' %}
+{% load static %}
 
 
 {% block body %}
@@ -10,8 +11,8 @@
             <div class="row">
                 <!--Grid column-->
                 <div class="col-md-6 mb-4">
-                    <img src="{{ product.preview.url }}"
-                         class="img-fluid" alt=""/>
+                    <img src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static 'img/no_photo.jpg' %}{% endif %}"
+                         class="img-fluid" alt="{{ product.name }}"/>
                 </div>
                 <!--Grid column-->
 
@@ -19,15 +20,12 @@
                 <div class="col-md-6 mb-4">
                     <!--Content-->
                     <div class="p-4">
+                        <strong><p style="font-size: 24px;">{{ product.name }}</p></strong>
                         <div class="mb-3">
-                            <a href="">
-                                <span class="badge bg-dark me-1">{{ product.category.name }}</span>
-                            </a>
+                            <a href=""><span class="badge bg-dark me-1">{{ product.category.name }}</span></a>
 
                             {% if is_new %}
-                                <a href="">
-                                    <span class="badge bg-info me-1">New</span>
-                                </a>
+                                <a href=""><span class="badge bg-info me-1">New</span></a>
                             {% endif %}
 
 
