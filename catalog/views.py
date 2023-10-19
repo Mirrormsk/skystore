@@ -16,7 +16,7 @@ def index(request):
     context = {
         'nbar': 'home',
         'title': 'Главная',
-        'products': Product.objects.all()[:5]
+        'products': Product.objects.all()
     }
 
     return render(request, "catalog/index.html", context)
