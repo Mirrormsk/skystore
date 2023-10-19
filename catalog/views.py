@@ -45,10 +45,14 @@ def product(request, pk: int):
     # Info for badge "new"
     is_new = timezone.now() - product.created_at <= datetime.timedelta(days=7)
 
+    # Recommended
+    recommended = Product.objects.filter(category=product.category).exclude(pk=pk)[:3]
+
     context = {
         'title': f'{product.name}',
         'product': product,
-        'is_new': is_new
+        'is_new': is_new,
+        'recommended': recommended
     }
 
     return render(request, "catalog/product.html", context)
