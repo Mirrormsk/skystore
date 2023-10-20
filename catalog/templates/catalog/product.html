@@ -11,7 +11,7 @@
             <div class="row">
                 <!--Grid column-->
                 <div class="col-md-6 mb-4">
-                    <img src="{% media_path product.preview%}"
+                    <img src="{% media_path product.preview %}"
                          class="img-fluid" alt="{{ product.name }}"/>
                 </div>
                 <!--Grid column-->
@@ -87,21 +87,8 @@
                         <div class="card">
                             <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
                                  data-mdb-ripple-color="light">
-                                <img src="
-
-
-
-
-
-
-
-
-
-
-
-
-                                        {% if product.preview %}{{ product.preview.url }}{% else %}{% static 'img/no_photo.jpg' %}{% endif %}"
-                                     class="w-100">
+                                <img src="{% media_path product.preview %}"
+                                     class="w-100" alt="{{ product.name }}">
                                 <a href="{% url 'catalog:product' product.pk %}">
                                     <div class="hover-overlay">
                                         <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
