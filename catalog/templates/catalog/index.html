@@ -39,7 +39,7 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">{{ product.price|price_format }}</p>
-                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
                         <div class="d-grid gap-3 d-md-block mt-auto mx-auto">
                             <a href="/product/{{ product.pk }}/">
                                 <button class="btn btn-light" type="button">Подробнее</button>
