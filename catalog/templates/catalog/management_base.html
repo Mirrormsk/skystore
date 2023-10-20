@@ -399,45 +399,12 @@
                 </div>
 
 
-                <div class="row">
-                    <h4>Товары</h4>
-                    <div class="col-2 my-2"><a href="#" class="btn btn-primary">Добавить товар</a></div>
-                </div>
+{#                <h4>Товары</h4>#}
 
-                <div class="table-responsive small">
-                    <table class="table table-striped table-sm">
-                        <thead>
-
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Категория</th>
-                            <th scope="col">Название</th>
-                            <th scope="col">Изменен</th>
-                            <th scope="col">Цена</th>
-                            <th scope="col">Редактировать</th>
-                            <th scope="col">Страница товара</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        {% for product in object_list %}
-                            <tr>
-                                <td>{{ product.pk }}</td>
-                                <td>{{ product.category.name }}</td>
-                                <td><a href="{% url 'catalog:product' product.pk %}">{{ product.name }}</a></td>
-                                <td>{{ product.updated_at|date }}</td>
-                                <td>{{ product.price|price_format }}</td>
-                                <td><a href="{% url 'catalog:product' product.pk %}" style="text-decoration: none">
-                                    Редактировать️</a></td>
-                                <td><a href="{% url 'catalog:product' product.pk %}" style="text-decoration: none">Посмотреть</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                {% block content %}
+                {% endblock %}
 
 
-                        </tbody>
-                    </table>
-                </div>
             </main>
         </div>
     </div>
