@@ -3,6 +3,7 @@ import datetime
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 from .services import messages_saver
 from .models import Product, Organization
@@ -13,10 +14,19 @@ from .models import Product, Organization
 
 def index(request):
     """Функция отображения главной страницы"""
+    objects = Product.objects.all()
+    pagen = Paginator(objects, 5)
+    page = request.GET.get('page')
+
+    if not page:
+        page = 1
+
     context = {
         'nbar': 'home',
         'title': 'Главная',
-        'products': Product.objects.all()
+        'products': pagen.page(page).object_list,
+        'page': pagen.page(page),
+        'paginator': pagen
     }
 
     return render(request, "catalog/index.html", context)
