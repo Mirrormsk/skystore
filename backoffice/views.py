@@ -56,13 +56,13 @@ def add_product(request):
 
 
 def edit_product(request, product_pk):
+    # todo: доделать изменение фото
     product = Product.objects.get(pk=product_pk)
     if request.method == 'POST':
         product.name = request.POST.get('name')
         product.description = request.POST.get('description')
         product.price = request.POST.get('price')
         product.category = Category.objects.get(pk=request.POST.get('category'))
-
         product.save()
         return redirect('backoffice:backoffice')
 
