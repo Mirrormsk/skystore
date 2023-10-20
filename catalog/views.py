@@ -56,3 +56,7 @@ def product(request, pk: int):
     }
 
     return render(request, "catalog/product.html", context)
+
+
+def management(request):
+    return render(request, 'catalog/management.html')

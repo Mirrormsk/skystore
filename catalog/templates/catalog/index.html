@@ -41,9 +41,12 @@
                         <p class="card-text">{{ product.price|price_format }}</p>
                         <p class="card-text">{{ product.description|truncatechars:100 }}</p>
                         <div class="d-grid gap-3 d-md-block mt-auto mx-auto">
-                            <a href="/product/{{ product.pk }}/">
-                                <button class="btn btn-light" type="button">Подробнее</button>
-                            </a>
+                            {% spaceless %}
+                                <a href="/product/{{ product.pk }}/">
+                                    <button class="btn btn-light" type="button">Подробнее</button>
+                                </a>
+                            {% endspaceless %}
+
                             <button class="btn btn-light" type="button">В корзину</button>
                         </div>
                     </div>
