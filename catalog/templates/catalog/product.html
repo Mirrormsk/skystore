@@ -104,12 +104,18 @@
                         </div>
                     </div>
 
+
+
                     <!--Grid column-->
                     {#                    <div class="col-lg-4 col-md-12 mb-4">#}
                     {#                        <img src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static 'img/no_photo.jpg' %}{% endif %}"#}
                     {#                             class="img-fluid" alt=""/>#}
                     {#                    </div>#}
                     <!--Grid column-->
+
+                {% empty %}
+
+                    <p>Нет похожих товаров</p>
 
                 {% endfor %}
 
