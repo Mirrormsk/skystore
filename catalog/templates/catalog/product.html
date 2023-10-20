@@ -83,35 +83,7 @@
 
                 {% for product in recommended %}
 
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card">
-                            <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                                 data-mdb-ripple-color="light">
-                                <img src="{% media_path product.preview %}"
-                                     class="w-100" alt="{{ product.name }}">
-                                <a href="{% url 'catalog:product' product.pk %}">
-                                    <div class="hover-overlay">
-                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <a href="{% url 'catalog:product' product.pk %}" class="text-reset">
-                                    <h5 class="card-title mb-2">{{ product.name }}</h5>
-                                </a>
-                                <h6 class="mb-3 price">{{ product.price|price_format }}</h6>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <!--Grid column-->
-                    {#                    <div class="col-lg-4 col-md-12 mb-4">#}
-                    {#                        <img src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static 'img/no_photo.jpg' %}{% endif %}"#}
-                    {#                             class="img-fluid" alt=""/>#}
-                    {#                    </div>#}
-                    <!--Grid column-->
+                    {% include 'catalog/includes/inc_product_card.html' %}
 
                 {% empty %}
 
