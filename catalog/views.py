@@ -59,4 +59,9 @@ def product(request, pk: int):
 
 
 def management(request):
-    return render(request, 'catalog/management.html')
+    products = Product.objects.all()
+    context = {
+        'title': 'Управление магазином',
+        'object_list': products
+    }
+    return render(request, 'catalog/management.html', context)
