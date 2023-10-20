@@ -1,6 +1,6 @@
 {% extends 'catalog/base.html' %}
 {% load static %}
-{% load price_format %}
+{% load catalog_tags %}
 
 {% block body %}
 
@@ -11,9 +11,7 @@
             <div class="row">
                 <!--Grid column-->
                 <div class="col-md-6 mb-4">
-                    <img src="
-
-                            {% if product.preview %}{{ product.preview.url }}{% else %}{% static 'img/no_photo.jpg' %}{% endif %}"
+                    <img src="{% media_path product.preview%}"
                          class="img-fluid" alt="{{ product.name }}"/>
                 </div>
                 <!--Grid column-->
@@ -74,7 +72,7 @@
                     <h4 class="my-4 h4 mb-5">Вам может понравиться</h4>
 
 
-{#                    <p>Эти товары похож на то, что вы ищете</p>#}
+                    {#                    <p>Эти товары похож на то, что вы ищете</p>#}
                 </div>
                 <!--Grid column-->
             </div>
@@ -89,7 +87,20 @@
                         <div class="card">
                             <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
                                  data-mdb-ripple-color="light">
-                                <img src="{% if product.preview %}{{ product.preview.url }}{% else %}{% static 'img/no_photo.jpg' %}{% endif %}"
+                                <img src="
+
+
+
+
+
+
+
+
+
+
+
+
+                                        {% if product.preview %}{{ product.preview.url }}{% else %}{% static 'img/no_photo.jpg' %}{% endif %}"
                                      class="w-100">
                                 <a href="{% url 'catalog:product' product.pk %}">
                                     <div class="hover-overlay">
