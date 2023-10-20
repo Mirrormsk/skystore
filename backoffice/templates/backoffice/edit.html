@@ -40,7 +40,8 @@
                 <select class="form-select" id="product_category" name="category" form="create_product_form" required>
 
                     {% for category in categories %}
-                        <option value="{{ category.pk }}" {% if category.pk == selected_category_pk %}selected{% endif %}>{{ category.name }}</option>
+                        <option value="{{ category.pk }}"
+                                {% if category.pk == selected_category_pk %}selected{% endif %}>{{ category.name }}</option>
                     {% endfor %}
                 </select>
 
@@ -50,7 +51,7 @@
             {# Submit #}
             <div class="form-submit mt-5">
                 <button class="btn btn-primary" type="submit" id="form-submit"><i
-                        class="material-icons mdi mdi-message-outline"></i>Создать товар
+                        class="material-icons mdi mdi-message-outline"></i>Сохранить изменения
                 </button>
                 <div id="submit" class="h3 text-center hidden"></div>
 

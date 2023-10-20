@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from catalog.models import Product, Category
@@ -6,7 +6,7 @@ from catalog.models import Product, Category
 
 # Create your views here.
 
-def management(request):
+def backoffice(request):
     products = Product.objects.all()
     categories = Category.objects.all()
     category_pk = 0
@@ -57,6 +57,14 @@ def add_product(request):
 
 def edit_product(request, product_pk):
     product = Product.objects.get(pk=product_pk)
+    if request.method == 'POST':
+        product.name = request.POST.get('name')
+        product.description = request.POST.get('description')
+        product.price = request.POST.get('price')
+        product.category = Category.objects.get(pk=request.POST.get('category'))
+
+        product.save()
+        return redirect('backoffice:backoffice')
 
     context = {
         'title': f'Редактировать товар - {product.name}',

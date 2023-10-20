@@ -43,7 +43,7 @@
                     <td><a href="{% url 'catalog:product' product.pk %}">{{ product.name }}</a></td>
                     <td>{{ product.updated_at|date }}</td>
                     <td>{{ product.price|price_format }}</td>
-                    <td><a href="{% url 'catalog:product' product.pk %}" style="text-decoration: none">
+                    <td><a href="{% url 'backoffice:edit_product' product.pk %}" style="text-decoration: none">
                         Редактировать️</a></td>
                     <td><a href="{% url 'catalog:product' product.pk %}" style="text-decoration: none">Посмотреть</a>
                     </td>
