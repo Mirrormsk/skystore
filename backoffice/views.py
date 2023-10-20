@@ -18,6 +18,7 @@ def backoffice(request):
             products = Product.objects.filter(category=Category.objects.get(pk=category_pk))
 
     context = {
+        'nbar': 'backoffice',
         'title': 'Управление магазином',
         'object_list': products,
         'categories': categories,
