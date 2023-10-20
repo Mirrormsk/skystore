@@ -8,10 +8,22 @@ from catalog.models import Product, Category
 
 def management(request):
     products = Product.objects.all()
+    categories = Category.objects.all()
+    category_pk = 0
+
+    if request.method == 'POST':
+        category_pk = request.POST.get('category')
+
+        if category_pk != '0':
+            products = Product.objects.filter(category=Category.objects.get(pk=category_pk))
+
     context = {
         'title': 'Управление магазином',
-        'object_list': products
+        'object_list': products,
+        'categories': categories,
+        'selected_category_pk': int(category_pk)
     }
+    print(context)
     return render(request, 'backoffice/management_products.html', context)
 
 
@@ -41,3 +53,15 @@ def add_product(request):
         'categories': Category.objects.all()
     }
     return render(request, 'backoffice/add_product.html', context)
+
+
+def edit_product(request, product_pk):
+    product = Product.objects.get(pk=product_pk)
+
+    context = {
+        'title': f'Редактировать товар - {product.name}',
+        'product': product,
+        'categories': Category.objects.all(),
+        'selected_category_pk': product.category.pk
+    }
+    return render(request, 'backoffice/edit.html', context)
