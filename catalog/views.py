@@ -46,13 +46,9 @@ def contacts(request):
 
 def product(request, pk: int):
     """Функция отображения страницы продукта"""
-    # product = Product.objects.get(pk=pk)
+
     product = get_object_or_404(Product, pk=pk)
-
-    # Info for badge "new"
     is_new = timezone.now() - product.created_at <= datetime.timedelta(days=7)
-
-    # Recommended
     recommended = Product.objects.filter(category=product.category).exclude(pk=pk)[:3]
 
     context = {

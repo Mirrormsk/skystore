@@ -51,7 +51,6 @@ def add_product(request):
 
 
 def edit_product(request, product_pk):
-    # todo: доделать изменение фото
     product = get_object_or_404(Product, pk=product_pk)
 
     if request.method == 'POST':
