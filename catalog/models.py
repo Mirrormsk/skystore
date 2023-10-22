@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
-
 # Nullable parameters
 NULLABLE = {"null": True, "blank": True}
 
@@ -43,6 +41,7 @@ class Product(TimeStampedModel):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+        ordering = ['-pk']
 
     def __str__(self):
         return f"{self.name} ({self.category.name})"
