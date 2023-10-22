@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
-
 # Nullable parameters
 NULLABLE = {"null": True, "blank": True}
 

@@ -1,6 +1,4 @@
-
 from django import template
-from django.db.models import ImageField
 
 register = template.Library()
 
@@ -20,10 +18,3 @@ def media_path(path: str):
     if path:
         return f"../../media/{path}"
     return '/static/img/no_photo.jpg'
-
-
-# @register.filter()
-# def photo_placeholder(photo):
-#     if not photo:
-#         return '/static/img/no_photo.jpg'
-#     return photo.url
