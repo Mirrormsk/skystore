@@ -54,12 +54,15 @@ def add_product(request):
 def edit_product(request, product_pk):
     # todo: доделать изменение фото
     product = get_object_or_404(Product, pk=product_pk)
+
     if request.method == 'POST':
-        product.name = request.POST.get('name')
-        product.description = request.POST.get('description')
-        product.price = request.POST.get('price')
-        product.category = Category.objects.get(pk=request.POST.get('category'))
-        product.save()
+
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.info(request, f'Ошибка в заполнении товара')
+
         return redirect('backoffice:backoffice')
 
     context = {
