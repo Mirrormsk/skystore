@@ -27,7 +27,7 @@ class ProductDetailView(DetailView):
 
         recommended = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:3]
 
-        context_data.update(recommended=recommended, is_new=is_new)
+        context_data.update(recommended=recommended, is_new=is_new, title=product.name)
         return context_data
 
 

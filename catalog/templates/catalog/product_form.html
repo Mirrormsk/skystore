@@ -69,7 +69,7 @@
                 <div id="submit" class="h3 text-center hidden"></div>
 
                 {% if object %}
-                    <a href="#" class="btn btn-danger">Удалить товар</a>
+                    <a href="{% url 'backoffice:delete_product' object.pk %}" class="btn btn-danger">Удалить товар</a>
                 {% endif %}
 
             </div>

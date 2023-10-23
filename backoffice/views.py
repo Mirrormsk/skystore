@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from catalog.models import Product, Category
 
@@ -13,10 +13,12 @@ class ProductCreateView(CreateView):
 
     success_url = reverse_lazy('backoffice:backoffice')
 
+    title = 'Создать новый продукт'
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         categories = Category.objects.all()
-        context_data.update(categories=categories)
+        context_data.update(categories=categories, title=self.title)
         return context_data
 
 
@@ -32,6 +34,13 @@ class ProductUpdateView(UpdateView):
         categories = Category.objects.all()
         context_data.update(categories=categories)
         return context_data
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('backoffice:backoffice')
+
+
 
 
 def backoffice(request):
