@@ -21,10 +21,13 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        product_pk = self.kwargs.get('pk')
-        category = Product.objects.get(pk=product_pk).category
-        recommended = Product.objects.filter(category=category).exclude(pk=product_pk)[:3]
-        context_data.update(recommended=recommended)
+
+        product = Product.objects.get(pk=self.kwargs.get('pk'))
+        is_new = timezone.now() - product.created_at <= datetime.timedelta(days=7)
+
+        recommended = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:3]
+
+        context_data.update(recommended=recommended, is_new=is_new)
         return context_data
 
 
@@ -41,20 +44,3 @@ def contacts(request):
     }
 
     return render(request, "catalog/contacts.html", context)
-
-
-# def product(request, pk: int):
-#     """Функция отображения страницы продукта"""
-#
-#     product = get_object_or_404(Product, pk=pk)
-#     is_new = timezone.now() - product.created_at <= datetime.timedelta(days=7)
-#     recommended = Product.objects.filter(category=product.category).exclude(pk=pk)[:3]
-#
-#     context = {
-#         'title': f'{product.name}',
-#         'product': product,
-#         'is_new': is_new,
-#         'recommended': recommended
-#     }
-#
-#     return render(request, "catalog/product_detail.html", context)
