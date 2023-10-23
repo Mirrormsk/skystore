@@ -33,6 +33,7 @@
                 <th scope="col">Цена</th>
                 <th scope="col">Страница товара</th>
                 <th scope="col">Редактировать</th>
+                <th scope="col">Статус</th>
             </tr>
             </thead>
             <tbody>
@@ -47,6 +48,12 @@
                     <td><a href="{% url 'catalog:product' product.pk %}" style="text-decoration: none">Посмотреть</a>
                     <td><a href="{% url 'backoffice:edit_product' product.pk %}" style="text-decoration: none">
                         Редактировать️</a></td>
+                    <td><a href="{% url 'backoffice:toggle_activity' product.pk %}">
+                        {% if product.is_active %}
+                            Деактивировать
+                        {% else %}
+                            Активировать
+                        {% endif %} </a>
 
                 </tr>
             {% endfor %}

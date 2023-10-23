@@ -49,6 +49,9 @@ class Product(TimeStampedModel):
         return f"{self.name} ({self.category.name})"
 
 
+
+
+
 class Organization(models.Model):
     name = models.CharField(max_length=255, verbose_name='Наименование')
     address = models.CharField(max_length=255, verbose_name='Адрес')

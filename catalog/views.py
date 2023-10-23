@@ -12,7 +12,6 @@ from .services import messages_saver
 
 class ProductListView(ListView):
     model = Product
-    template_name = 'catalog/index.html'
     paginate_by = 5
 
 
@@ -27,7 +26,10 @@ class ProductDetailView(DetailView):
 
         recommended = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:3]
 
-        context_data.update(recommended=recommended, is_new=is_new, title=product.name)
+        context_data['recommended'] = recommended
+        context_data['is_new'] = is_new
+        context_data['title'] = product.name
+
         return context_data
 
 
