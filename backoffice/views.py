@@ -1,8 +1,37 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, ListView
 
 from catalog.models import Product, Category
-from .forms.product_form import ProductForm
+
+
+class ProductCreateView(CreateView):
+    model = Product
+
+    fields = ('name', 'description', 'preview', 'category', 'price')
+
+    success_url = reverse_lazy('backoffice:backoffice')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        categories = Category.objects.all()
+        context_data.update(categories=categories)
+        return context_data
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+
+    fields = ('name', 'description', 'preview', 'category', 'price')
+
+    success_url = reverse_lazy('backoffice:backoffice')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        categories = Category.objects.all()
+        context_data.update(categories=categories)
+        return context_data
 
 
 def backoffice(request):
@@ -26,47 +55,3 @@ def backoffice(request):
         'selected_category_pk': int(category_pk)
     }
     return render(request, 'backoffice/management_products.html', context)
-
-
-def add_product(request):
-    if request.method == 'POST':
-
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-
-            messages.info(request, 'Товар успешно создан!')
-        else:
-            messages.info(request, f'Ошибка создания товара')
-
-    else:
-        form = ProductForm()
-
-    context = {
-        'title': 'Добавить товар',
-        'categories': Category.objects.all(),
-        'form': form,
-    }
-    return render(request, 'backoffice/add_product.html', context)
-
-
-def edit_product(request, product_pk):
-    product = get_object_or_404(Product, pk=product_pk)
-
-    if request.method == 'POST':
-
-        form = ProductForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            form.save()
-        else:
-            messages.info(request, f'Ошибка в заполнении товара')
-
-        return redirect('backoffice:backoffice')
-
-    context = {
-        'title': f'Редактировать товар - {product.name}',
-        'product': product,
-        'categories': Category.objects.all(),
-        'selected_category_pk': product.category.pk
-    }
-    return render(request, 'backoffice/edit.html', context)

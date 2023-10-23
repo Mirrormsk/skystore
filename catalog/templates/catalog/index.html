@@ -30,7 +30,7 @@
         <h2 class="mx-3 my-3">Новые поступления</h2>
         <div class="row justify-content-around">
 
-            {% for product in products %}
+            {% for product in product_list %}
                 {% include 'catalog/includes/inc_product_card.html' %}
             {% endfor %}
 
@@ -40,9 +40,9 @@
         <div class="row-cols-auto">
             <nav aria-label="Pagination">
                 <ul class="pagination justify-content-center">
-                    {% if page.has_previous %}
+                    {% if page_obj.has_previous %}
                         <li class="page-item"><a class="page-link"
-                                                 href="?page={{ page.previous_page_number }}">&lt&lt</a></li>
+                                                 href="?page={{ page_obj.previous_page_number }}">&lt&lt</a></li>
                     {% else %}
                         <li class="page-item disabled"><a class="page-link" href="#">&lt&lt</a></li>
                     {% endif %}
@@ -55,8 +55,8 @@
                         {% endif %}
                     {% endfor %}
 
-                    {% if page.has_next %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">&gt&gt</a>
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&gt&gt</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled"><a class="page-link" href="#">&gt&gt</a></li>

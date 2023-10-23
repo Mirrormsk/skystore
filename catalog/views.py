@@ -4,29 +4,20 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 
 from .models import Product, Organization
 from .services import messages_saver
 
 
-def index(request):
-    """Функция отображения главной страницы"""
-    objects = Product.objects.all()
-    pagen = Paginator(objects, 5)
-    page = request.GET.get('page')
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/index.html'
+    paginate_by = 5
 
-    if not page:
-        page = 1
 
-    context = {
-        'nbar': 'home',
-        'title': 'Главная',
-        'products': pagen.page(page).object_list,
-        'page': pagen.page(page),
-        'paginator': pagen
-    }
-
-    return render(request, "catalog/index.html", context)
+class ProductDetailView(DetailView):
+    model = Product
 
 
 def contacts(request):
@@ -58,4 +49,4 @@ def product(request, pk: int):
         'recommended': recommended
     }
 
-    return render(request, "catalog/product.html", context)
+    return render(request, "catalog/product_detail.html", context)

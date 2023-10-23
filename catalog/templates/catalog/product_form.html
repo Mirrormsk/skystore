@@ -10,19 +10,27 @@
             <div class="mb-3">
                 <label for="product_name" class="form-label">Наименование</label>
                 <input type="text" class="form-control" id="product_name" placeholder="До 255 символов" name="name"
-                       required>
+                       required
+                        {% if object %}
+                       value="{{ object.name }}"
+                        {% endif %}
+                >
             </div>
 
             {# Description #}
             <div class="mb-3">
                 <label for="product_description" class="form-label">Описание</label>
-                <textarea class="form-control" id="product_description" rows="3" name="description"></textarea>
+                <textarea class="form-control" id="product_description" rows="3" name="description">{% if object %}{{ object.description }}{% endif %}</textarea>
             </div>
 
             {# Price #}
             <div class="mb-3">
                 <label for="product_price" class="form-label">Цена</label>
-                <input type="number" class="form-control" id="product_price" name="price" min="0" required>
+                <input type="number" class="form-control" id="product_price" name="price" min="0" required
+                        {% if object %}
+                       value="{{ object.price }}"
+                        {% endif %}
+                >
             </div>
 
             {# Image file #}
@@ -37,7 +45,12 @@
                 <select class="form-select" id="product_category" name="category" form="create_product_form" required>
 
                     {% for category in categories %}
-                        <option value="{{ category.pk }}">{{ category.name }}</option>
+                        <option value="{{ category.pk }}"
+                                {% if object %}
+                                    {% if object.category.pk == category.pk %}
+                                selected
+                                    {% endif %}
+                                {% endif %}>{{ category.name }}</option>
                     {% endfor %}
                 </select>
 
@@ -47,9 +60,17 @@
             {# Submit #}
             <div class="form-submit mt-5">
                 <button class="btn btn-primary" type="submit" id="form-submit"><i
-                        class="material-icons mdi mdi-message-outline"></i>Создать товар
+                        class="material-icons mdi mdi-message-outline"></i>{% if product %}
+                    Сохранить изменения
+                {% else %}
+                    Создать товар
+                {% endif %}
                 </button>
                 <div id="submit" class="h3 text-center hidden"></div>
+
+                {% if object %}
+                    <a href="#" class="btn btn-danger">Удалить товар</a>
+                {% endif %}
 
             </div>
 
