@@ -14,6 +14,11 @@ class ProductListView(ListView):
     model = Product
     paginate_by = 5
 
+    extra_context = {
+        'title': 'SkyStore - Главная',
+        'nbar': 'home',
+    }
+
 
 class ProductDetailView(DetailView):
     model = Product

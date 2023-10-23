@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 
 from catalog.models import Product, Category
 
@@ -12,9 +12,8 @@ class ProductCreateView(CreateView):
 
     success_url = reverse_lazy('backoffice:backoffice')
 
-    title = 'Создать новый продукт'
-
     extra_context = {
+        'title': 'Создать новый продукт',
         'categories': Category.objects.all()
     }
 
@@ -26,9 +25,16 @@ class ProductUpdateView(UpdateView):
 
     success_url = reverse_lazy('backoffice:backoffice')
 
-    extra_context = {
-        'categories': Category.objects.all()
-    }
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
+        categories = Category.objects.all()
+
+        context_data['categories'] = categories
+        context_data['title'] = f'Редактирование товара {product.name}'
+
+        return context_data
 
 
 class ProductDeleteView(DeleteView):
@@ -48,6 +54,15 @@ def toggle_product_activity(request, pk):
     product_item.save()
 
     return redirect(reverse_lazy('backoffice:backoffice'))
+
+
+class BackofficeListView(ListView):
+    model = Product
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        categories = Category.objects.all()
 
 
 def backoffice(request):
