@@ -1,0 +1,16 @@
+{% extends 'catalog/base.html' %}
+{% block body %}
+    <main class="container">
+        <div class="col-md-8 my-5">
+            <article class="blog-post">
+                <h5 class="link-body-emphasis mb-1">{{ object.title }}</h5>
+                <p class="blog-post-meta">{{ object.created_at }}</p>
+                <img class="card-img-top img-fluid mb-4" src="{{ object.preview.url }}" alt="{{ object.title }}">
+
+                <p>{{ object.content }}</p>
+            </article>
+        </div>
+    </main>
+
+
+{% endblock %}

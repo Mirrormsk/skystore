@@ -34,3 +34,8 @@ class ArticleUpdateView(UpdateView):
     )
 
     success_url = reverse_lazy('blog:blog_list')
+
+
+class ArticleDetailView(DetailView):
+    model = Article
+

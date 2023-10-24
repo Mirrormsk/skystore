@@ -2,6 +2,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 
+from blog.models import Article
 from catalog.models import Product, Category
 
 
@@ -64,7 +65,7 @@ class BackofficeProductListView(ListView):
         context_data = super().get_context_data(**kwargs)
 
         context_data['categories'] = Category.objects.all()
-        context_data['title'] = 'Управление магазином'
+        context_data['title'] = 'Товары'
         context_data['nbar'] = 'backoffice'
         context_data['selected_category_pk'] = int(self.request.POST.get('category', 0))
 
@@ -84,4 +85,10 @@ class BackofficeProductListView(ListView):
 
 
 class BackofficeArticleListView(ListView):
-    ...
+    model = Article
+
+    template_name = 'backoffice/backoffice_articles.html'
+    extra_context = {
+        'title': 'Статьи',
+        'nbar': 'backoffice'
+    }
