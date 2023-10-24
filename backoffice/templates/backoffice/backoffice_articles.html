@@ -32,12 +32,15 @@
 
                     <td><a href="{% url 'backoffice:toggle_article_activity' object.pk %}">
                         {% if object.is_published %}
-                            Опубликовать
-                        {% else %}
                             Снять с публикации
+                        {% else %}
+                            Опубликовать
                         {% endif %} </a>
 
                 </tr>
+
+            {% empty %}
+                <p>Нет записей</p>
             {% endfor %}
 
 
