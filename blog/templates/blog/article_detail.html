@@ -13,6 +13,8 @@
                 </div>
                 <p class="blog-post-meta">Просмотров: {{ object.views_count }}</p>
             </article>
+
+            <a href="{% url 'blog:blog_list' %}" class="btn btn-light">Назад к статьям</a>
         </div>
     </main>
 {% endblock %}
