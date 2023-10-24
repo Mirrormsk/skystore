@@ -20,3 +20,17 @@ class ArticleCreateView(CreateView):
     )
 
     success_url = reverse_lazy('blog:blog_list')
+
+
+class ArticleUpdateView(UpdateView):
+    model = Article
+
+    fields = (
+        'title',
+        'slug',
+        'content',
+        'preview',
+        'is_published'
+    )
+
+    success_url = reverse_lazy('blog:blog_list')

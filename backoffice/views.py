@@ -56,9 +56,9 @@ def toggle_product_activity(request, pk):
     return redirect(reverse_lazy('backoffice:backoffice'))
 
 
-class BackofficeListView(ListView):
+class BackofficeProductListView(ListView):
     model = Product
-    template_name = 'backoffice/management_products.html'
+    template_name = 'backoffice/backoffice_products.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -81,3 +81,7 @@ class BackofficeListView(ListView):
 
     def post(self, request):
         return self.get(request)
+
+
+class BackofficeArticleListView(ListView):
+    ...
