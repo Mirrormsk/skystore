@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from pytils.translit import slugify
 
@@ -52,7 +52,8 @@ class ArticleUpdateView(UpdateView):
         'is_published'
     )
 
-    success_url = reverse_lazy('blog:blog_list')
+    def get_success_url(self):
+        return reverse('blog:article_detail', args=[self.kwargs.get('pk')])
 
     def form_valid(self, form):
         if form.is_valid():
@@ -71,4 +72,3 @@ class ArticleDetailView(DetailView):
         self.object.views_count += 1
         self.object.save()
         return self.object
-
