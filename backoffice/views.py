@@ -103,3 +103,12 @@ class BackofficeArticleListView(ListView):
         'title': 'Статьи',
         'nbar': 'backoffice'
     }
+
+
+class ArticleDeleteView(DeleteView):
+    model = Article
+    success_url = reverse_lazy('backoffice:blog_list')
+
+    extra_context = {
+        'title': 'Удаление статьи'
+    }
