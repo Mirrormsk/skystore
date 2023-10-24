@@ -1,11 +1,11 @@
-from django.urls import reverse_lazy, reverse
 from smtplib import SMTPDataError
-from config.settings import EMAIL_ADMIN, DEFAULT_FROM_EMAIL
 
 from django.core.mail import send_mail
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from pytils.translit import slugify
 
+from config.settings import EMAIL_ADMIN, DEFAULT_FROM_EMAIL
 from .models import Article
 
 
