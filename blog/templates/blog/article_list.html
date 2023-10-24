@@ -24,11 +24,9 @@
                                     <p class="card-text">{{ object.content|truncatechars:100 }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'blog:article_detail' object.pk %}">View</a>
-{#                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>#}
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'blog:article_detail' object.pk %}">Подробнее</a>
                                         </div>
-                                        <small class="text-body-secondary">9 mins</small>
+                                        <small class="text-body-secondary">{{ object.created_at|timesince }}</small>
                                     </div>
                                 </div>
                             </div>
