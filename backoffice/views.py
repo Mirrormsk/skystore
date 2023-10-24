@@ -57,6 +57,17 @@ def toggle_product_activity(request, pk):
     return redirect(reverse_lazy('backoffice:backoffice'))
 
 
+def toggle_article_activity(request, pk):
+    article_item = get_object_or_404(Article, pk=pk)
+    if article_item.is_published:
+        article_item.is_published = False
+    else:
+        article_item.is_published = True
+    article_item.save()
+
+    return redirect(reverse_lazy('backoffice:blog_list'))
+
+
 class BackofficeProductListView(ListView):
     model = Product
     template_name = 'backoffice/backoffice_products.html'

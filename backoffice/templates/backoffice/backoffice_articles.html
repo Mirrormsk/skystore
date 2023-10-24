@@ -25,15 +25,16 @@
                     <td>{{ object.content|truncatechars:30 }}</td>
                     <td>{{ object.created_at }}</td>
                     <td>{{ object.updated_at|date }}, {{ object.updated_at|time }}</td>
-                    <td><a href="{% url 'catalog:product' object.pk %}" style="text-decoration: none">Посмотреть</a>
-                    <td>{{ object.price|price_format }}</td>
+                    <td><a href="{% url 'blog:article_detail' object.pk %}" style="text-decoration: none">Посмотреть</a>
+
                     <td><a href="{% url 'blog:article_edit' object.pk %}" style="text-decoration: none">
                         Редактировать️</a></td>
-                    <td><a href="{% url 'backoffice:toggle_activity' object.pk %}">
-                        {% if object.is_active %}
-                            Деактивировать
+
+                    <td><a href="{% url 'backoffice:toggle_article_activity' object.pk %}">
+                        {% if object.is_published %}
+                            Опубликовать
                         {% else %}
-                            Активировать
+                            Снять с публикации
                         {% endif %} </a>
 
                 </tr>

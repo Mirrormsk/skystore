@@ -7,6 +7,11 @@ from .models import Article
 class ArticleListView(ListView):
     model = Article
 
+    extra_context = {
+        'title': 'SkyStore | Блог',
+        'nbar': 'blog'
+    }
+
 
 class ArticleCreateView(CreateView):
     model = Article
@@ -38,4 +43,3 @@ class ArticleUpdateView(UpdateView):
 
 class ArticleDetailView(DetailView):
     model = Article
-
