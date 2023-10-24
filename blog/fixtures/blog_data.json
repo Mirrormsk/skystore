@@ -1,0 +1,28 @@
+[
+  {
+    "model": "blog.article",
+    "pk": 1,
+    "fields": {
+      "created_at": "2023-10-24T08:57:24.736Z",
+      "updated_at": "2023-10-24T12:31:46.758Z",
+      "title": "Коллекция ZARA HOME уже в продаже",
+      "slug": "kollektsiya-zara-home-uzhe-v-prodazhe",
+      "content": "Шикарные аксессуары для дома ZARA HOME уже в нашем каталоге!\r\nСкидка по промомоду \"WINTER\" 10%.",
+      "is_published": true,
+      "views_count": 90
+    }
+  },
+  {
+    "model": "blog.article",
+    "pk": 2,
+    "fields": {
+      "created_at": "2023-10-24T10:11:10.332Z",
+      "updated_at": "2023-10-24T12:32:59.641Z",
+      "title": "VETEMENTS обновил коллекцию зимней одежды",
+      "slug": "vetements-obnovil-kollektsiyu-zimnej-odezhdyi",
+      "content": "В коллекции добавилось много моделей. \r\nVETEMENTS - бренд модной одежды класса люкс и «дизайнерский коллектив», основанный грузинским модельером Демной Гвасалией и его братом Гурамом Гвасалией (генеральный директор компании).",
+      "is_published": true,
+      "views_count": 0
+    }
+  }
+]
