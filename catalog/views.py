@@ -19,6 +19,12 @@ class ProductListView(ListView):
         'nbar': 'home',
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_active=True)
+
+        return queryset
+
 
 class ProductDetailView(DetailView):
     model = Product
