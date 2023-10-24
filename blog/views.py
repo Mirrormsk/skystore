@@ -1,4 +1,8 @@
 from django.urls import reverse_lazy, reverse
+from smtplib import SMTPDataError
+from config.settings import EMAIL_ADMIN, DEFAULT_FROM_EMAIL
+
+from django.core.mail import send_mail
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from pytils.translit import slugify
 
@@ -70,5 +74,19 @@ class ArticleDetailView(DetailView):
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         self.object.views_count += 1
+
+        views_notification_count = 100
+
+        if self.object.views_count == views_notification_count:
+            subject = 'SkyStore - статья пользуется популярностью!'
+            body = f'Ваша статья "{self.object.title}" набрала {views_notification_count} просмотров!'
+            from_email = DEFAULT_FROM_EMAIL
+            recipient_list = [EMAIL_ADMIN, 'm.donchuk@gmail.com']
+
+            try:
+                send_mail(subject, body, from_email=from_email, recipient_list=recipient_list)
+            except SMTPDataError as ex:
+                print(f'Ошибка отправки письма:\n{ex}')
+
         self.object.save()
         return self.object
