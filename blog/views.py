@@ -71,6 +71,12 @@ class ArticleUpdateView(UpdateView):
 class ArticleDetailView(DetailView):
     model = Article
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        article_pk = self.kwargs.get('pk')
+        context_data['title'] = self.model.objects.get(pk=article_pk).title
+        return context_data
+
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         self.object.views_count += 1
