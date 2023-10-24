@@ -58,31 +58,26 @@ def toggle_product_activity(request, pk):
 
 class BackofficeListView(ListView):
     model = Product
+    template_name = 'backoffice/management_products.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context_data = super().get_context_data(**kwargs)
 
-        categories = Category.objects.all()
+        context_data['categories'] = Category.objects.all()
+        context_data['title'] = 'Управление магазином'
+        context_data['nbar'] = 'backoffice'
+        context_data['selected_category_pk'] = int(self.request.POST.get('category', 0))
 
+        return context_data
 
-def backoffice(request):
-    products = Product.objects.all()
-    categories = Category.objects.all()
-    category_pk = 0
-
-    if request.method == 'POST':
-        category_pk = request.POST.get('category')
+    def get_queryset(self):
+        category_pk = self.request.POST.get('category', 0)
 
         categories_pk_list = list(Category.objects.values_list('pk', flat=True))
 
         if int(category_pk) in categories_pk_list:
-            products = Product.objects.filter(category=Category.objects.get(pk=category_pk))
+            return self.model.objects.filter(category_id=category_pk)
+        return self.model.objects.all()
 
-    context = {
-        'nbar': 'backoffice',
-        'title': 'Управление магазином',
-        'object_list': products,
-        'categories': categories,
-        'selected_category_pk': int(category_pk)
-    }
-    return render(request, 'backoffice/management_products.html', context)
+    def post(self, request):
+        return self.get(request)
