@@ -48,10 +48,7 @@ class ProductDeleteView(DeleteView):
 
 def toggle_product_activity(request, pk):
     product_item = get_object_or_404(Product, pk=pk)
-    if product_item.is_active:
-        product_item.is_active = False
-    else:
-        product_item.is_active = True
+    product_item.is_active = not product_item.is_active
     product_item.save()
 
     return redirect(reverse_lazy('backoffice:backoffice'))
