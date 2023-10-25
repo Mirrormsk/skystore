@@ -59,10 +59,7 @@ def toggle_product_activity(request, pk):
 
 def toggle_article_activity(request, pk):
     article_item = get_object_or_404(Article, pk=pk)
-    if article_item.is_published:
-        article_item.is_published = False
-    else:
-        article_item.is_published = True
+    article_item.is_published = not article_item.is_published
     article_item.save()
 
     return redirect(reverse_lazy('backoffice:blog_list'))
