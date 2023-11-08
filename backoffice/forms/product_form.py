@@ -33,8 +33,9 @@ class BackListMixin:
         "полиция",
         "радар",
     )
-    blacklist_ratio_level = 80
+    blacklist_ratio_level = 85
     default_message = "Текст содержит запрещенное слово"
+
     def is_similar_words(self, word_1: str) -> Callable:
         def check_ratio(word_2: str) -> bool:
             return fuzz.ratio(word_1, word_2) >= self.blacklist_ratio_level
