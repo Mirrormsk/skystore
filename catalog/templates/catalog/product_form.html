@@ -30,13 +30,12 @@
                                 <div class="list-group">
                                     {{ formset.management_form }}
                                     {% for form in formset.forms %}
-                                        <div class="list-group-item list-group-item-action d-flex gap-3 py-3"
+                                        <div class="list-group-item list-group-item-action d-flex gap-3 py-3 my-2 shadow-sm"
                                              aria-current="true">
                                             <div class="d-flex gap-2 w-100 justify-content-between">
                                                 <div>
                                                     {{ form|crispy }}
                                                 </div>
-
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -47,30 +46,27 @@
                     </div>
 
                 {% endif %}
+                {# Submit #}
+                <div class="form-submit mt-5">
+                    <button class="btn btn-primary" type="submit" id="form-submit"><i
+                            class="material-icons mdi mdi-message-outline"></i>{% if product %}
+                        Сохранить изменения
+                    {% else %}
+                        Создать товар
+                    {% endif %}
+                    </button>
+                    <div id="submit" class="h3 text-center hidden"></div>
+
+                    {% if object %}
+                        <a href="{% url 'backoffice:delete_product' object.pk %}" class="btn btn-danger">Удалить
+                            товар</a>
+                    {% endif %}
+
+                </div>
             </form>
         </div>
 
 
-        {# Submit #}
-        <div class="form-submit mt-5">
-            <button class="btn btn-primary" type="submit" id="form-submit"><i
-                    class="material-icons mdi mdi-message-outline"></i>{% if product %}
-                Сохранить изменения
-            {% else %}
-                Создать товар
-            {% endif %}
-            </button>
-            <div id="submit" class="h3 text-center hidden"></div>
-
-            {% if object %}
-                <a href="{% url 'backoffice:delete_product' object.pk %}" class="btn btn-danger">Удалить
-                    товар</a>
-            {% endif %}
-
-        </div>
-
-
-        </form>
     </div>
 
     <!-- Confirmation message -->
