@@ -1,5 +1,7 @@
 from django import template
 
+from catalog.models import Version
+
 register = template.Library()
 
 
@@ -20,3 +22,11 @@ def media_path(path: str):
     if path:
         return f"/media/{path}"
     return "/static/img/no_photo.jpg"
+
+
+@register.filter()
+def is_version_active(version: Version):
+    """Check is that version is active"""
+    if not isinstance(version, Version):
+        raise ValueError('Tag is_version_active can be used only with Version instances')
+    return version.is_active
