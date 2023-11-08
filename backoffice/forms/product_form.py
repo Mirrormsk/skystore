@@ -8,6 +8,20 @@ from catalog.models import Product
 
 
 class BackListMixin:
+    """
+    Mixin adds a text check for the presence of forbidden words.
+
+    Usage example:
+    --------
+        def clean_description(self):
+        cleaned_data = self.cleaned_data.get("description")
+        self.check_for_bad_words(cleaned_data)
+        return cleaned_data
+    --------
+    Function cleaned_data raises ValidationError if bad words in text.
+    It can take optional argument for custom message text, example:
+    cleaned_data = self.cleaned_data.get("description", "Forbidden word in text")
+    """
     words_blacklist = (
         "казино",
         "криптовалюта",
@@ -20,7 +34,7 @@ class BackListMixin:
         "радар",
     )
     blacklist_ratio_level = 80
-
+    default_message = "Текст содержит запрещенное слово"
     def is_similar_words(self, word_1: str) -> Callable:
         def check_ratio(word_2: str) -> bool:
             return fuzz.ratio(word_1, word_2) >= self.blacklist_ratio_level
@@ -40,9 +54,10 @@ class BackListMixin:
         result = any(map(self.is_word_in_blacklist, words))
         return result
 
-    def check_for_bad_words(self, data):
+    def check_for_bad_words(self, data: str, *args):
+        message = args[0] if args else self.default_message
         if self.has_word_in_blacklist(data):
-            raise forms.ValidationError("Текст содержит запрещенное слово")
+            raise forms.ValidationError(message)
 
 
 class ProductForm(BackListMixin, forms.ModelForm):
