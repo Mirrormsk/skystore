@@ -7,15 +7,9 @@ from rapidfuzz import fuzz
 from catalog.models import Product
 
 
-class ProductForm(forms.ModelForm):
-    """Класс для валидации формы создания и изменения продукта"""
-
+class BackListMixin:
     words_blacklist = ('казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар')
     blacklist_ratio_level = 80
-
-    class Meta:
-        model = Product
-        fields = ['name', 'description', 'price', 'category', 'preview']
 
     def is_similar_words(self, word_1: str) -> Callable:
         def check_ratio(word_2: str) -> bool:
@@ -35,6 +29,14 @@ class ProductForm(forms.ModelForm):
         words = clean_text.split()
         result = any(map(self.is_word_in_blacklist, words))
         return result
+
+
+class ProductForm(BackListMixin, forms.ModelForm):
+    """Класс для валидации формы создания и изменения продукта"""
+
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'price', 'category', 'preview']
 
     def clean_description(self):
         cleaned_data = self.cleaned_data.get('description')
