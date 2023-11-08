@@ -4,12 +4,13 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 
 from blog.models import Article
 from catalog.models import Product, Category
+from .forms.product_form import ProductForm
 
 
 class ProductCreateView(CreateView):
     model = Product
 
-    fields = ('name', 'description', 'preview', 'category', 'price')
+    form_class = ProductForm
 
     success_url = reverse_lazy('backoffice:backoffice')
 
@@ -22,7 +23,7 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(UpdateView):
     model = Product
 
-    fields = ('name', 'description', 'preview', 'category', 'price')
+    form_class = ProductForm
 
     success_url = reverse_lazy('backoffice:backoffice')
 
