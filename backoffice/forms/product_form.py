@@ -10,7 +10,7 @@ from catalog.models import Product
 class ProductForm(forms.ModelForm):
     """Класс для валидации формы создания и изменения продукта"""
 
-    words_blacklist = {'казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар'}
+    words_blacklist = ('казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар')
     blacklist_ratio_level = 80
 
     class Meta:
