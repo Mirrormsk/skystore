@@ -76,7 +76,7 @@ class Version(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name="продукт"
     )
-    is_active = models.BooleanField(default=True, verbose_name="Актуальная версия")
+    is_active = models.BooleanField(default=False, verbose_name="Актуальная версия")
 
     class Meta:
         verbose_name = "версия"
