@@ -31,6 +31,10 @@
                                 <div class="list-group list-group-radio d-grid gap-3 border-0">
                                     {{ formset.management_form }}
                                     {% for form in formset.forms %}
+                                        {% if forloop.last %}
+                                            <hr>
+                                            <p>Добавить новую версию:</p>
+                                        {% endif %}
                                         <div class="position-relative">
 
                                             <label for="is_selected_{{ forloop.counter }}"
@@ -43,7 +47,7 @@
                                                        checked
                                                         {% endif %}
                                                         {% if not form.instance.pk %}
-                                                        	disabled
+                                                       disabled
                                                         {% endif %} >
                                                 <div class="d-flex gap-2 w-100 justify-content-between">
                                                     {{ form|crispy }}
@@ -92,7 +96,6 @@
             {% endfor %}
         </ul>
     {% endif %}
-    </div>
 
 
 {% endblock %}

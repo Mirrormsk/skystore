@@ -1,5 +1,4 @@
 from django.db import transaction
-from django.forms import ValidationError
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
@@ -55,16 +54,19 @@ class ProductUpdateView(UpdateView):
                 self.object = form.save()
                 if formset.is_valid():
 
-                    selected_version_pk = self.request.POST.get("is_selected")
-                    selected_version = Version.objects.get(pk=selected_version_pk)
-
                     formset.instance = self.object
-                    formset.instance.version_set.update(is_active=False)
-                    selected_version.is_active = True
-                    selected_version.save()
-
-
                     formset.save()
+
+                    selected_version_pk = self.request.POST.get("is_selected")
+                    selected_version_pk_list = map(str, list(Version.objects.values_list(flat=True)))
+
+                    if selected_version_pk in selected_version_pk_list:
+
+                        selected_version = Version.objects.get(pk=selected_version_pk)
+                        formset.instance.version_set.update(is_active=False)
+                        selected_version.is_active = True
+                        selected_version.save()
+
         return super().form_valid(form)
 
 
