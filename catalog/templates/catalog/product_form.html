@@ -33,7 +33,7 @@
                                     {% for form in formset.forms %}
                                         {% if forloop.last %}
                                             <hr>
-                                            <p>Добавить новую версию:</p>
+                                            <p>Добавить новую версию (станет доступна после сохранения):</p>
                                         {% endif %}
                                         <div class="position-relative">
 
@@ -65,7 +65,8 @@
 
                 {% endif %}
                 {# Submit #}
-                <div class="form-submit mt-5">
+                <div class="form-submit mt-5 d-flex gap-2">
+
                     <button class="btn btn-primary" type="submit" id="form-submit"><i
                             class="material-icons mdi mdi-message-outline"></i>{% if product %}
                         Сохранить изменения
@@ -79,6 +80,7 @@
                         <a href="{% url 'backoffice:delete_product' object.pk %}" class="btn btn-danger">Удалить
                             товар</a>
                     {% endif %}
+                    <a href="{% url 'backoffice:backoffice_products' %}" class="btn btn-warning">Отмена</a>
 
                 </div>
             </form>
