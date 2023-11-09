@@ -7,7 +7,7 @@ from rapidfuzz import fuzz
 from catalog.models import Product
 
 
-class BackListMixin:
+class BlackListMixin:
     """
     Mixin adds a text check for the presence of forbidden words.
 
@@ -61,7 +61,7 @@ class BackListMixin:
             raise forms.ValidationError(message)
 
 
-class ProductForm(BackListMixin, forms.ModelForm):
+class ProductForm(BlackListMixin, forms.ModelForm):
     """Класс для валидации формы создания и изменения продукта"""
 
     class Meta:
