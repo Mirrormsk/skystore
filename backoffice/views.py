@@ -1,10 +1,11 @@
 from django.db import transaction
+from django.forms import ValidationError
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 
 from blog.models import Article
-from catalog.models import Product, Category
+from catalog.models import Product, Category, Version
 from .forms import ProductForm, VersionFormSet
 
 
@@ -39,7 +40,7 @@ class ProductUpdateView(UpdateView):
         else:
             formset = VersionFormSet(instance=self.object)
 
-        context_data['formset'] = formset
+        context_data["formset"] = formset
         context_data["categories"] = categories
         context_data["title"] = f"Редактирование товара {product.name}"
 
@@ -47,13 +48,22 @@ class ProductUpdateView(UpdateView):
 
     def form_valid(self, form):
         context_data = self.get_context_data()
-        formset = context_data['formset']
+        formset = context_data["formset"]
 
         with transaction.atomic():
             if form.is_valid():
                 self.object = form.save()
                 if formset.is_valid():
+
+                    selected_version_pk = self.request.POST.get("is_selected")
+                    selected_version = Version.objects.get(pk=selected_version_pk)
+
                     formset.instance = self.object
+                    formset.instance.version_set.update(is_active=False)
+                    selected_version.is_active = True
+                    selected_version.save()
+
+
                     formset.save()
         return super().form_valid(form)
 
