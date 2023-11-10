@@ -24,6 +24,11 @@ python3 manage.py fill_catalog
 python3 manage.py fill_blog
 ```
 
+Создать суперпользователя:
+```bash
+python3 manage.py csu
+```
+
 
 ## Использование
 
