@@ -61,10 +61,11 @@ class Organization(models.Model):
     address = models.CharField(max_length=255, verbose_name="Адрес")
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     email = models.EmailField(verbose_name="Email")
+    is_active = models.BooleanField(verbose_name="Активны")
 
     class Meta:
-        verbose_name = "организация"
-        verbose_name_plural = "организации"
+        verbose_name = "Контактные данные"
+        verbose_name_plural = "Контактные данные"
 
     def __str__(self):
         return self.name
