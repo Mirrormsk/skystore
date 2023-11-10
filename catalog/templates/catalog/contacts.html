@@ -11,24 +11,27 @@
             </div>
             <div class="row">
                 <!-- Section Titile -->
-                <div class="col-md-6 mt-3 contact-widget-section2 wow animated fadeInLeft" data-wow-delay=".2s">
-                    <p>Вы можете связаться с нами по контактам, указанным ниже, либо отправить сообщение через форму
-                        обратной связи.</p>
+                {% if organization %}
+                    <div class="col-md-6 mt-3 contact-widget-section2 wow animated fadeInLeft" data-wow-delay=".2s">
+                        <p>Вы можете связаться с нами по контактам, указанным ниже, либо отправить сообщение через форму
+                            обратной связи.</p>
 
-                    <div class="find-widget">
-                        <h3>{{ organization.name }}</h3>
-                    </div>
-                    <div class="find-widget">
-                        Адрес: <a href="#">{{ organization.address }}</a>
-                    </div>
-                    <div class="find-widget">
-                        Телефон: <a href="tel: {{ organization.phone }}">{{ organization.phone }}</a>
-                    </div>
-                    <div class="find-widget">
-                        Email: <a href="mailto: {{ organization.email }}">{{ organization.email }}</a>
-                    </div>
+                        <div class="find-widget">
+                            <h3>{{ organization.name }}</h3>
+                        </div>
+                        <div class="find-widget">
+                            Адрес: <a href="#">{{ organization.address }}</a>
+                        </div>
+                        <div class="find-widget">
+                            Телефон: <a href="tel: {{ organization.phone }}">{{ organization.phone }}</a>
+                        </div>
+                        <div class="find-widget">
+                            Email: <a href="mailto: {{ organization.email }}">{{ organization.email }}</a>
+                        </div>
 
-                </div>
+                    </div>
+                {% endif %}
+
                 <!-- contact form -->
                 <div class="col-md-6 wow animated fadeInRight" data-wow-delay=".2s">
                     <form class="shake" role="form" method="post" id="contactForm" name="contact-form"

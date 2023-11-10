@@ -46,10 +46,12 @@ class ProductDetailView(DetailView):
 class ContactsTemplateView(TemplateView):
     template_name = 'catalog/contacts.html'
 
+    organization = Organization.objects.filter(is_active=True).last()
+
     extra_context = {
         'nbar': 'contacts',
         'title': 'Контакты',
-        'organization': Organization.objects.get(pk=1)
+        'organization': organization
     }
 
     def post(self, *args):
