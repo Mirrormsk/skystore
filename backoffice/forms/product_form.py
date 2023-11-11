@@ -77,3 +77,5 @@ class ProductForm(BlackListMixin, forms.ModelForm):
         cleaned_data = self.cleaned_data.get("name")
         self.check_for_bad_words(cleaned_data)
         return cleaned_data
+
+

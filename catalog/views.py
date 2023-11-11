@@ -1,12 +1,16 @@
 import datetime
 
+from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page, never_cache
 from django.views.generic import ListView, DetailView, TemplateView
 
 from .models import Product, Organization
 from .services import messages_saver
+
+production_cache = cache_page(60 * 5) if settings.DEBUG else never_cache
 
 
 class ProductListView(ListView):
@@ -14,8 +18,8 @@ class ProductListView(ListView):
     paginate_by = 5
 
     extra_context = {
-        'title': 'SkyStore - Главная',
-        'nbar': 'home',
+        "title": "SkyStore - Главная",
+        "nbar": "home",
     }
 
     def get_queryset(self):
@@ -31,30 +35,38 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
 
-        product = Product.objects.get(pk=self.kwargs.get('pk'))
+        product = Product.objects.get(pk=self.kwargs.get("pk"))
         is_new = timezone.now() - product.created_at <= datetime.timedelta(days=7)
 
-        recommended = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:3]
+        recommended = Product.objects.filter(category=product.category).exclude(
+            pk=product.pk
+        )[:3]
 
-        context_data['recommended'] = recommended
-        context_data['is_new'] = is_new
-        context_data['title'] = product.name
+        context_data["recommended"] = recommended
+        context_data["is_new"] = is_new
+        context_data["title"] = product.name
 
         return context_data
 
 
 class ContactsTemplateView(TemplateView):
-    template_name = 'catalog/contacts.html'
+    template_name = "catalog/contacts.html"
 
-    organization = Organization.objects.filter(is_active=True).last()
+    # print(organization)
 
     extra_context = {
-        'nbar': 'contacts',
-        'title': 'Контакты',
-        'organization': organization
+        "nbar": "contacts",
+        "title": "Контакты",
     }
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        organization = Organization.objects.filter(is_active=True).last()
+        context_data['organization'] = organization
+        return context_data
 
     def post(self, *args):
         messages_saver.save_message(self.request.POST)
-        messages.info(self.request, 'Ваше сообщение принято и будет обработано')
+        messages.info(self.request, "Ваше сообщение принято и будет обработано")
         return self.get(self.request)
+
