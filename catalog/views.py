@@ -3,7 +3,6 @@ import datetime
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page, never_cache
 from django.views.generic import ListView, DetailView, TemplateView
 
@@ -52,8 +51,6 @@ class ProductDetailView(DetailView):
 class ContactsTemplateView(TemplateView):
     template_name = "catalog/contacts.html"
 
-    # print(organization)
-
     extra_context = {
         "nbar": "contacts",
         "title": "Контакты",
@@ -69,4 +66,3 @@ class ContactsTemplateView(TemplateView):
         messages_saver.save_message(self.request.POST)
         messages.info(self.request, "Ваше сообщение принято и будет обработано")
         return self.get(self.request)
-
