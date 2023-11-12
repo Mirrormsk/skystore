@@ -1,4 +1,5 @@
 from django.core.management import BaseCommand
+import getpass
 
 from users.models import User
 
@@ -7,13 +8,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         email = input("Enter superuser email: ")
 
-        psw1 = input("Enter password: ")
-        psw2 = input("Confirm password: ")
+        psw1 = getpass.getpass("Enter password: ")
+        psw2 = getpass.getpass("Confirm password: ")
 
         while psw1 != psw2:
             print("Passwords didn't match!")
-            psw1 = input("Enter password: ")
-            psw2 = input("Confirm password: ")
+            psw1 = getpass.getpass("Enter password: ")
+            psw2 = getpass.getpass("Confirm password: ")
 
         user = User.objects.create(
             email=email,
