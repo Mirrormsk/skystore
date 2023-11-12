@@ -11,8 +11,8 @@ class Command(BaseCommand):
         psw1 = getpass.getpass("Enter password: ")
         psw2 = getpass.getpass("Confirm password: ")
 
-        while psw1 != psw2:
-            print("Passwords didn't match!")
+        while psw1 != psw2 or not psw1:
+            print("Passwords didn't match or empty!")
             psw1 = getpass.getpass("Enter password: ")
             psw2 = getpass.getpass("Confirm password: ")
 
