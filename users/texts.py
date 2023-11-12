@@ -1,5 +1,5 @@
-users_register_title = 'Регистрация нового пользователя'
-email_greeting_title = 'Поздравляем с регистрацией!'
-email_message_text = 'Вы успешно зарегистрировались на платформе SkyStore, добро пожаловать!'
-password_has_been_reset_title = 'Ваш пароль был успешно сброшен'
-new_password_message = 'Вы запросили сброс пароля.\nВаш новый пароль: {}'
+users_register_title = "Регистрация нового пользователя"
+email_greeting_title = "Поздравляем с регистрацией!"
+email_message_text = "Вы успешно зарегистрировались на платформе SkyStore, добро пожаловать!\nДля завершения регистрации перейдите по ссылке: {}"
+password_has_been_reset_title = "Ваш пароль был успешно сброшен"
+new_password_message = "Вы запросили сброс пароля.\nВаш новый пароль: {}"

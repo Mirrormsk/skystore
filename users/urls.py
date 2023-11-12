@@ -7,6 +7,8 @@ from .views import (
     RegisterView,
     UserUpdateView,
     generate_new_password,
+    activate_user,
+    ActivationSuccessfulView,
 )
 
 app_name = UsersConfig.name
@@ -16,5 +18,7 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
     path("profile/", UserUpdateView.as_view(), name="profile"),
-    path("profile/generatepassword", generate_new_password,name="generate_new_password",),
+    path("profile/generatepassword/", generate_new_password, name="generate_new_password"),
+    path("profile/<uuid:uid>/verify/", activate_user, name="email_verify"),
+    path("activation_successful/", ActivationSuccessfulView.as_view(), name="activation_successful"),
 ]

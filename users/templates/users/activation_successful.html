@@ -1,0 +1,21 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+
+    <link rel="stylesheet" href="{% static 'css/sign-in.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="row align-items-center py-4">
+
+        <main class="col-6 m-auto mt-5 mb-5">
+
+                <h5>Ваша учетная запись успешно подтверждена!</h5>
+                <p>Войдите по ссылке ниже:</p>
+
+                <a href="{% url 'users:login' %}" class="btn btn-success">Войти</a>
+        </main>
+
+    </div>
+{% endblock %}

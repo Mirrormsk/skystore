@@ -4,13 +4,14 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.core.mail import send_mail
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, TemplateView
 
 from users.forms import UserRegisterForm, UserForm
 from users.models import User
 from . import texts
+from .services import generate_verify_url
 from .texts import password_has_been_reset_title, new_password_message
 
 
@@ -32,9 +33,10 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+        verify_url = self.request.build_absolute_uri(generate_verify_url(user))
         send_mail(
             subject=texts.email_greeting_title,
-            message=texts.email_message_text,
+            message=texts.email_message_text.format(verify_url),
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[user.email],
         )
@@ -48,6 +50,10 @@ class UserUpdateView(UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class ActivationSuccessfulView(TemplateView):
+    template_name = 'users/activation_successful.html'
 
 
 def generate_new_password(request):
@@ -66,3 +72,14 @@ def generate_new_password(request):
     update_session_auth_hash(request, user)
 
     return redirect(reverse("users:profile"))
+
+
+def activate_user(request, uid):
+    user = get_object_or_404(User, uid=uid)
+    user.is_active = True
+    user.save()
+    return redirect(reverse('users:activation_successful'))
+
+
+
+
