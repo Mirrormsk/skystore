@@ -14,6 +14,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='почта')
     country = CountryField(**NULLABLE, verbose_name='Страна')
     uid = models.UUIDField(default=uuid.uuid4, editable=False)
+    is_active = models.BooleanField(default=False, verbose_name='активен')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
