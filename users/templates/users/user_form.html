@@ -1,0 +1,26 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+
+    <link rel="stylesheet" href="{% static 'css/sign-in.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="row align-items-center py-4">
+
+        <main class="col-6 m-auto">
+            <form method="post" class="form-control" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <hr>
+                Действия:
+                <br>
+                <a href="#" class="btn btn-danger my-2 w-25">Сгенерировать пароль</a>
+                <br>
+                <button class="btn btn-primary w-25 py-2" type="submit">Сохранить изменения</button>
+            </form>
+        </main>
+
+    </div>
+{% endblock %}
