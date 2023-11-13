@@ -1,14 +1,21 @@
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.views import LoginView as BaseLoginView
+from django.contrib.auth.views import (
+    LoginView as BaseLoginView,
+    PasswordResetConfirmView,
+)
 from django.contrib.auth.views import LogoutView as BaseLogoutView
+from django.contrib.auth.views import (
+    PasswordResetView as BasePasswordResetView,
+    PasswordResetDoneView as BasePasswordResetDoneView,
+)
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView
 
-from users.forms import UserRegisterForm, UserForm
+from users.forms import UserRegisterForm, UserForm, CustomPasswordResetForm
 from users.models import User
 from . import texts
 from .services import generate_verify_url
@@ -53,33 +60,26 @@ class UserUpdateView(UpdateView):
 
 
 class ActivationSuccessfulView(TemplateView):
-    template_name = 'users/activation_successful.html'
+    template_name = "users/activation_successful.html"
 
 
-def generate_new_password(request):
-    user = request.user
+class PasswordResetView(BasePasswordResetView):
+    email_template_name = 'users/password_reset_email'
+    template_name = "users/password_reset_page.html"
+    form_class = CustomPasswordResetForm
+    success_url = reverse_lazy("users:password_reset_done")
 
-    new_password = BaseUserManager().make_random_password()
-    user.set_password(new_password)
-    user.save()
 
-    send_mail(
-        subject=password_has_been_reset_title,
-        message=new_password_message.format(new_password),
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[user.email],
-    )
-    update_session_auth_hash(request, user)
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    success_url = reverse_lazy("users:password_reset_done")
 
-    return redirect(reverse("users:profile"))
+
+class PasswordResetDoneView(BasePasswordResetDoneView):
+    template_name = "users/password_reset_done.html"
 
 
 def activate_user(request, uid):
     user = get_object_or_404(User, uid=uid)
     user.is_active = True
     user.save()
-    return redirect(reverse('users:activation_successful'))
-
-
-
-
+    return redirect(reverse("users:activation_successful"))
