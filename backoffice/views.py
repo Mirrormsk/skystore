@@ -20,6 +20,13 @@ class ProductCreateView(CreateView):
         "categories": Category.objects.all(),
     }
 
+    def form_valid(self, form):
+        product = form.save()
+        product.producer = self.request.user
+        product.save()
+
+        return super().form_valid(form)
+
 
 class ProductUpdateView(UpdateView):
     model = Product
@@ -49,6 +56,10 @@ class ProductUpdateView(UpdateView):
         context_data = self.get_context_data()
         formset = context_data["formset"]
 
+        product = form.save()
+        product.producer = self.request.user
+        product.save()
+
         with transaction.atomic():
             if form.is_valid():
                 self.object = form.save()
@@ -58,7 +69,9 @@ class ProductUpdateView(UpdateView):
                     formset.save()
 
                     selected_version_pk = self.request.POST.get("is_selected")
-                    selected_version_pk_list = map(str, list(Version.objects.values_list(flat=True)))
+                    selected_version_pk_list = map(
+                        str, list(Version.objects.values_list(flat=True))
+                    )
 
                     if selected_version_pk in selected_version_pk_list:
 

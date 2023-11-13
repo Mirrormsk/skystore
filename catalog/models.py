@@ -44,8 +44,10 @@ class Product(TimeStampedModel):
         Category, on_delete=models.CASCADE, verbose_name="Категория"
     )
     price = models.IntegerField(verbose_name="Цена")
-
     is_active = models.BooleanField(default=True, verbose_name="Активен")
+    producer = models.ForeignKey(
+        "users.User", on_delete=models.SET_NULL, **NULLABLE, verbose_name="Создал"
+    )
 
     class Meta:
         verbose_name = "продукт"
