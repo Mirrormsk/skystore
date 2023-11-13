@@ -34,7 +34,8 @@
       "preview": "catalog/06-07-2021_SI_UA52JA550B_7_1.webp",
       "category": 1,
       "price": 189990,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -48,7 +49,8 @@
       "preview": "catalog/HMECSAP3241-BLA.jpeg",
       "category": 2,
       "price": 22900,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -62,7 +64,8 @@
       "preview": "catalog/85556654.jpg",
       "category": 3,
       "price": 11999,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -76,7 +79,8 @@
       "preview": "catalog/33074481.jpg",
       "category": 3,
       "price": 7999,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -90,7 +94,8 @@
       "preview": "catalog/8353724704_1_1_1.jpg",
       "category": 1,
       "price": 8990,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -104,7 +109,8 @@
       "preview": "catalog/3902220032_6_1_1_gxDWNSx.jpg",
       "category": 2,
       "price": 5990,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -118,7 +124,8 @@
       "preview": "catalog/01_1526.jpg",
       "category": 1,
       "price": 349000,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -132,7 +139,8 @@
       "preview": "catalog/36320f7b-919c-3348-99ac-38cc1365f388.jpg",
       "category": 2,
       "price": 11500,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -146,7 +154,8 @@
       "preview": "catalog/820494ca-7ebb-331c-b0d2-b893e7cb8926.jpg",
       "category": 1,
       "price": 286500,
-      "is_active": true
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -154,13 +163,29 @@
     "pk": 19,
     "fields": {
       "created_at": "2023-10-23T12:37:52.592Z",
-      "updated_at": "2023-11-09T10:08:32.728Z",
+      "updated_at": "2023-11-13T12:06:04.697Z",
       "name": "Шкатулка WOOD AND METAL BOX",
       "description": "Деревянная шкатулка с плоской матовой металлической крышкой.\r\n\r\nСОСТАВ: OUTER SHELL 70% дерево манго 30% нержавеющая сталь",
       "preview": "catalog/93016049.jpg",
       "category": 3,
       "price": 3999,
-      "is_active": true
+      "is_active": true,
+      "producer": null
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 20,
+    "fields": {
+      "created_at": "2023-11-13T11:26:53.101Z",
+      "updated_at": "2023-11-13T11:26:53.386Z",
+      "name": "Акустическая система Bowers & Wilkins Nautilus",
+      "description": "Признанный в качестве классической модели Bowers & Wilkins Nautilus™—это не только наша самая лучшая продукция, но и образец технологических инноваций, к которым должны стремиться все. Это результат интенсивных исследований в течение пяти лет, ставящих целью создание идеальной АС. Bowers & Wilkins Nautilus™ повсеместно считается великолепной АС, указывающей путь в новое тысячелетие всей аудио индустрии. Уже признанная знатоками, эта система была разработана для серьезных аудиофилов не только вследствие своего размера и формы, но и дизайна – разделительный фильтр находится между предусилителем и усилителем мощности. Это означает, что полная система Nautilus™ должна включать в себя один стерео предусилитель и восемь моноблоков или четыре стерео усилителей мощности на пару (рекомендуются усилители от 100 Вт и выше, усилители в 500 Вт являются оптимальными для низкочастотных динамиков).",
+      "preview": "catalog/4459.jpg",
+      "category": 3,
+      "price": 11719000,
+      "is_active": true,
+      "producer": null
     }
   },
   {
@@ -168,7 +193,7 @@
     "pk": 1,
     "fields": {
       "name": "SkyStore",
-      "address": "4435 Berkshire Circle Knoxville",
+      "address": "Москва, Летниковская 4",
       "phone": "+7 (964) 635-60-53",
       "email": "info@skystore.ru",
       "is_active": true
@@ -181,6 +206,16 @@
       "name": "Версия 2024",
       "number": "0224",
       "product": 15,
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 15,
+    "fields": {
+      "name": "Версия 2024",
+      "number": "2.0",
+      "product": 19,
       "is_active": true
     }
   }
