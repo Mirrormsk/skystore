@@ -1,6 +1,4 @@
 from django.conf import settings
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.views import (
     LoginView as BaseLoginView,
     PasswordResetConfirmView,
@@ -19,7 +17,6 @@ from users.forms import UserRegisterForm, UserForm, CustomPasswordResetForm
 from users.models import User
 from . import texts
 from .services import generate_verify_url
-from .texts import password_has_been_reset_title, new_password_message
 
 
 class LoginView(BaseLoginView):
