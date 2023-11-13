@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import environ
+from django.urls import reverse_lazy
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -143,4 +144,6 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+LOGIN_URL = reverse_lazy('users:login')
 

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -8,7 +9,7 @@ from catalog.models import Product, Category, Version
 from .forms import ProductForm, VersionFormSet
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
 
     form_class = ProductForm
@@ -28,7 +29,7 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
 
     form_class = ProductForm
@@ -83,7 +84,7 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy("backoffice:backoffice")
     extra_context = {"title": "Удаление товара"}
@@ -105,7 +106,7 @@ def toggle_article_activity(request, pk):
     return redirect(reverse_lazy("backoffice:blog_list"))
 
 
-class BackofficeProductListView(ListView):
+class BackofficeProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = "backoffice/backoffice_products.html"
 
@@ -132,14 +133,14 @@ class BackofficeProductListView(ListView):
         return self.get(request)
 
 
-class BackofficeArticleListView(ListView):
+class BackofficeArticleListView(LoginRequiredMixin, ListView):
     model = Article
 
     template_name = "backoffice/backoffice_articles.html"
     extra_context = {"title": "Статьи", "nbar": "backoffice"}
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
     model = Article
     success_url = reverse_lazy("backoffice:blog_list")
 

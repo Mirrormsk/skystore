@@ -20,7 +20,9 @@ from .services import generate_verify_url
 
 
 class LoginView(BaseLoginView):
-    pass
+    extra_context = {
+        'title': 'SkyStore - Вход'
+    }
 
 
 class LogoutView(BaseLogoutView):

@@ -1,5 +1,6 @@
 from smtplib import SMTPDataError
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
@@ -23,7 +24,7 @@ class ArticleListView(ListView):
         return queryset
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
 
     fields = (
@@ -45,7 +46,7 @@ class ArticleCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
 
     fields = (
