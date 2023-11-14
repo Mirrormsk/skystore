@@ -3,6 +3,7 @@ from django.contrib.auth.views import (
     LoginView as BaseLoginView,
     PasswordResetConfirmView,
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.contrib.auth.views import (
     PasswordResetView as BasePasswordResetView,
@@ -49,7 +50,7 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     success_url = reverse_lazy("users:profile")
     form_class = UserForm
