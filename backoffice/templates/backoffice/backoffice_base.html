@@ -272,15 +272,18 @@
                                     <strong>Товары</strong>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2"
-                                   href="{% url 'backoffice:blog_list' %}">
-                                    <svg class="bi">
-                                        <use xlink:href="#file-earmark"/>
-                                    </svg>
-                                    Статьи
-                                </a>
-                            </li>
+                            {% if perms.blog.add_article %}
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center gap-2"
+                                       href="{% url 'backoffice:blog_list' %}">
+                                        <svg class="bi">
+                                            <use xlink:href="#file-earmark"/>
+                                        </svg>
+                                        Статьи
+                                    </a>
+                                </li>
+                            {% endif %}
+
                             {#                            <li class="nav-item">#}
                             {#                                <a class="nav-link d-flex align-items-center gap-2" href="#">#}
                             {#                                    <svg class="bi">#}

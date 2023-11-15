@@ -1,6 +1,6 @@
 from smtplib import SMTPDataError
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
@@ -13,10 +13,7 @@ from .models import Article
 class ArticleListView(ListView):
     model = Article
 
-    extra_context = {
-        'title': 'SkyStore | Блог',
-        'nbar': 'blog'
-    }
+    extra_context = {"title": "SkyStore | Блог", "nbar": "blog"}
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -24,18 +21,14 @@ class ArticleListView(ListView):
         return queryset
 
 
-class ArticleCreateView(LoginRequiredMixin, CreateView):
+class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Article
 
-    fields = (
-        'title',
-        'slug',
-        'content',
-        'preview',
-        'is_published'
-    )
+    fields = ("title", "slug", "content", "preview", "is_published")
 
-    success_url = reverse_lazy('blog:blog_list')
+    success_url = reverse_lazy("blog:blog_list")
+
+    permission_required = "blog.add_article"
 
     def form_valid(self, form):
         if form.is_valid():
@@ -46,19 +39,15 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Article
 
-    fields = (
-        'title',
-        'slug',
-        'content',
-        'preview',
-        'is_published'
-    )
+    fields = ("title", "slug", "content", "preview", "is_published")
+
+    permission_required = "blog.change_article"
 
     def get_success_url(self):
-        return reverse('blog:article_detail', args=[self.kwargs.get('pk')])
+        return reverse("blog:article_detail", args=[self.kwargs.get("pk")])
 
     def form_valid(self, form):
         if form.is_valid():
@@ -74,8 +63,8 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        article_pk = self.kwargs.get('pk')
-        context_data['title'] = self.model.objects.get(pk=article_pk).title
+        article_pk = self.kwargs.get("pk")
+        context_data["title"] = self.model.objects.get(pk=article_pk).title
         return context_data
 
     def get_object(self, queryset=None):
@@ -85,15 +74,17 @@ class ArticleDetailView(DetailView):
         views_notification_count = 100
 
         if self.object.views_count == views_notification_count:
-            subject = 'SkyStore - статья пользуется популярностью!'
+            subject = "SkyStore - статья пользуется популярностью!"
             body = f'Ваша статья "{self.object.title}" набрала {views_notification_count} просмотров!'
             from_email = DEFAULT_FROM_EMAIL
-            recipient_list = [EMAIL_ADMIN, 'm.donchuk@gmail.com']
+            recipient_list = [EMAIL_ADMIN, "m.donchuk@gmail.com"]
 
             try:
-                send_mail(subject, body, from_email=from_email, recipient_list=recipient_list)
+                send_mail(
+                    subject, body, from_email=from_email, recipient_list=recipient_list
+                )
             except SMTPDataError as ex:
-                print(f'Ошибка отправки письма:\n{ex}')
+                print(f"Ошибка отправки письма:\n{ex}")
 
         self.object.save()
         return self.object

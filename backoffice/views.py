@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import permission_required, login_required
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     PermissionRequiredMixin,
@@ -123,6 +124,8 @@ def toggle_product_activity(request, pk):
     return redirect(reverse_lazy("backoffice:backoffice"))
 
 
+@login_required
+@permission_required("blog.change_article", raise_exception=PermissionDenied)
 def toggle_article_activity(request, pk):
     article_item = get_object_or_404(Article, pk=pk)
     article_item.is_published = not article_item.is_published
@@ -165,15 +168,20 @@ class BackofficeProductListView(LoginRequiredMixin, ListView):
         return self.get(request)
 
 
-class BackofficeArticleListView(LoginRequiredMixin, ListView):
+class BackofficeArticleListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Article
 
     template_name = "backoffice/backoffice_articles.html"
+
+    permission_required = "blog.add_article"
+
     extra_context = {"title": "Статьи", "nbar": "backoffice"}
 
 
-class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Article
     success_url = reverse_lazy("backoffice:blog_list")
+
+    permission_required = "blog.delete_article"
 
     extra_context = {"title": "Удаление статьи"}
