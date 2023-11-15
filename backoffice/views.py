@@ -1,13 +1,23 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.db import transaction
+from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
-from django.contrib.auth.decorators import permission_required, login_required
 
 from blog.models import Article
 from catalog.models import Product, Category, Version
-from .forms import ProductForm, VersionFormSet, ModeratorProductForm, SuperuserProductForm
+from .forms import (
+    ProductForm,
+    VersionFormSet,
+    ModeratorProductForm,
+    SuperuserProductForm,
+)
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -30,16 +40,22 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    permission_required = 'catalog.change_product'
 
     success_url = reverse_lazy("backoffice:backoffice")
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        user = self.request.user
+        if self.object.producer != user and not user.has_perm("catalog.can_moderate"):
+            raise Http404
+        return self.object
 
     def get_form_class(self):
         user = self.request.user
 
-        if user.has_perm('catalog.set_active') and not user.is_superuser:
+        if user.has_perm("catalog.set_active") and not user.is_superuser:
             form_class = ModeratorProductForm
         elif user.is_superuser:
             form_class = SuperuserProductForm
@@ -98,7 +114,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 
 @login_required
-@permission_required('catalog.set_active')
+@permission_required("catalog.set_active")
 def toggle_product_activity(request, pk):
     product_item = get_object_or_404(Product, pk=pk)
     product_item.is_active = not product_item.is_active
@@ -140,7 +156,7 @@ class BackofficeProductListView(LoginRequiredMixin, ListView):
         else:
             queryset = self.model.objects.all()
 
-        if not (user.is_superuser or user.has_perm('catalog.can_moderate')):
+        if not (user.is_superuser or user.has_perm("catalog.can_moderate")):
             queryset = queryset.filter(producer=user)
 
         return queryset

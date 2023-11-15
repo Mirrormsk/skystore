@@ -33,11 +33,19 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
-    def get_object(self, queryset=None):
+    def is_user_creator_or_moderator_of(self, product):
         user = self.request.user
-        product = get_object_or_404(self.model, pk=self.kwargs.get('pk'))
+        return (
+            user.is_authenticated
+            and product.producer == user
+            or user.is_superuser
+            or user.has_perm("catalog.can_moderate")
+        )
+
+    def get_object(self, queryset=None):
+        product = get_object_or_404(self.model, pk=self.kwargs.get("pk"))
         if not product.is_active:
-            if not (user.is_authenticated and product.producer == user or user.is_superuser):
+            if not self.is_user_creator_or_moderator_of(product):
                 raise Http404
         return product
 
@@ -53,8 +61,8 @@ class ProductDetailView(DetailView):
         )[:3]
 
         if not product.is_active:
-            if user.is_authenticated and product.producer == user or user.is_superuser:
-                context_data['show_not_active_product'] = True
+            if self.is_user_creator_or_moderator_of(product):
+                context_data["show_not_active_product"] = True
 
         context_data["recommended"] = recommended
         context_data["is_new"] = is_new
@@ -74,7 +82,7 @@ class ContactsTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         organization = Organization.objects.filter(is_active=True).last()
-        context_data['organization'] = organization
+        context_data["organization"] = organization
         return context_data
 
     def post(self, *args):
