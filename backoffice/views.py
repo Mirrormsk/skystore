@@ -68,10 +68,6 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         context_data = self.get_context_data()
         formset = context_data["formset"]
 
-        product = form.save()
-        product.producer = self.request.user
-        product.save()
-
         with transaction.atomic():
             if form.is_valid():
                 self.object = form.save()

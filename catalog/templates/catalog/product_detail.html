@@ -20,6 +20,9 @@
                 <div class="col-md-6 mb-4">
                     <!--Content-->
                     <div class="p-4">
+                    {% if show_not_active_product %}
+                    	<strong style="font-size: 20px; color: red">Продукт не активен!</strong>
+                    {% endif %}
                         <strong><p style="font-size: 24px;">{{ product.name }}</p></strong>
                         <div class="mb-3">
                             <a href=""><span class="badge bg-dark me-1">{{ product.category.name }}</span></a>

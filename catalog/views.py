@@ -2,6 +2,8 @@ import datetime
 
 from django.conf import settings
 from django.contrib import messages
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.decorators.cache import cache_page, never_cache
 from django.views.generic import ListView, DetailView, TemplateView
@@ -31,7 +33,16 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
+    def get_object(self, queryset=None):
+        user = self.request.user
+        product = get_object_or_404(self.model, pk=self.kwargs.get('pk'))
+        if not product.is_active:
+            if not (user.is_authenticated and product.producer == user or user.is_superuser):
+                raise Http404
+        return product
+
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context_data = super().get_context_data(**kwargs)
 
         product = Product.objects.get(pk=self.kwargs.get("pk"))
@@ -40,6 +51,10 @@ class ProductDetailView(DetailView):
         recommended = Product.objects.filter(category=product.category).exclude(
             pk=product.pk
         )[:3]
+
+        if not product.is_active:
+            if user.is_authenticated and product.producer == user or user.is_superuser:
+                context_data['show_not_active_product'] = True
 
         context_data["recommended"] = recommended
         context_data["is_new"] = is_new
