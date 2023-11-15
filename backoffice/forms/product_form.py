@@ -85,3 +85,7 @@ class ModeratorProductForm(ProductForm):
         fields = ["description", "category", "is_active"]
 
 
+class SuperuserProductForm(ProductForm):
+    class Meta:
+        model = Product
+        fields = '__all__'

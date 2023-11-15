@@ -57,6 +57,10 @@ class Product(TimeStampedModel):
             (
                 'set_active',
                 'Can set active'
+            ),
+            (
+                'can_moderate',
+                'Can moderate'
             )
         ]
 

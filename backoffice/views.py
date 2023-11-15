@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import permission_required, login_required
 
 from blog.models import Article
 from catalog.models import Product, Category, Version
-from .forms import ProductForm, VersionFormSet, ModeratorProductForm
+from .forms import ProductForm, VersionFormSet, ModeratorProductForm, SuperuserProductForm
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -41,6 +41,8 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
         if user.has_perm('catalog.set_active') and not user.is_superuser:
             form_class = ModeratorProductForm
+        elif user.is_superuser:
+            form_class = SuperuserProductForm
         else:
             form_class = ProductForm
         return form_class
@@ -132,13 +134,20 @@ class BackofficeProductListView(LoginRequiredMixin, ListView):
         return context_data
 
     def get_queryset(self):
-        category_pk = self.request.POST.get("category", 0)
+        user = self.request.user
 
+        category_pk = self.request.POST.get("category", 0)
         categories_pk_list = list(Category.objects.values_list("pk", flat=True))
 
         if int(category_pk) in categories_pk_list:
-            return self.model.objects.filter(category_id=category_pk)
-        return self.model.objects.all()
+            queryset = self.model.objects.filter(category_id=category_pk)
+        else:
+            queryset = self.model.objects.all()
+
+        if not (user.is_superuser or user.has_perm('catalog.can_moderate')):
+            queryset = queryset.filter(producer=user)
+
+        return queryset
 
     def post(self, request):
         return self.get(request)
