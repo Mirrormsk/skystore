@@ -79,3 +79,9 @@ class ProductForm(BlackListMixin, forms.ModelForm):
         return cleaned_data
 
 
+class ModeratorProductForm(ProductForm):
+    class Meta:
+        model = Product
+        fields = ["description", "category", "is_active"]
+
+

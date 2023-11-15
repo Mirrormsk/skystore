@@ -44,7 +44,7 @@ class Product(TimeStampedModel):
         Category, on_delete=models.CASCADE, verbose_name="Категория"
     )
     price = models.IntegerField(verbose_name="Цена")
-    is_active = models.BooleanField(default=True, verbose_name="Активен")
+    is_active = models.BooleanField(default=False, verbose_name="Активен")
     producer = models.ForeignKey(
         "users.User", on_delete=models.SET_NULL, **NULLABLE, verbose_name="Создал"
     )
@@ -53,6 +53,12 @@ class Product(TimeStampedModel):
         verbose_name = "продукт"
         verbose_name_plural = "продукты"
         ordering = ["-pk"]
+        permissions = [
+            (
+                'set_active',
+                'Can set active'
+            )
+        ]
 
     def __str__(self):
         return f"{self.name} ({self.category.name})"

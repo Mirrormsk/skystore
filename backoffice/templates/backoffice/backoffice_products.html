@@ -32,8 +32,12 @@
                 <th scope="col">Изменен</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Страница товара</th>
-                <th scope="col">Редактировать</th>
-                <th scope="col">Статус</th>
+                {% if perms.catalog.change_product %}
+                    <th scope="col">Редактировать</th>
+                {% endif %}
+                {% if perms.catalog.set_active %}
+                    <th scope="col">Статус</th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -46,14 +50,19 @@
                     <td>{{ product.updated_at|date }}, {{ product.updated_at|time }}</td>
                     <td>{{ product.price|price_format }}</td>
                     <td><a href="{% url 'catalog:product' product.pk %}" style="text-decoration: none">Посмотреть</a>
-                    <td><a href="{% url 'backoffice:edit_product' product.pk %}" style="text-decoration: none">
-                        Редактировать️</a></td>
-                    <td><a href="{% url 'backoffice:toggle_product_activity' product.pk %}">
+                        {% if perms.catalog.change_product %}
+                            <td><a href="{% url 'backoffice:edit_product' product.pk %}" style="text-decoration: none">
+                                Редактировать️</a></td>
+                        {% endif %}
+                    {% if perms.catalog.set_active %}
+                        <td><a href="{% url 'backoffice:toggle_product_activity' product.pk %}">
                         {% if product.is_active %}
                             Деактивировать
                         {% else %}
                             Активировать
                         {% endif %} </a>
+                    {% endif %}
+
 
                 </tr>
             {% endfor %}

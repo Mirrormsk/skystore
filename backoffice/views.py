@@ -1,12 +1,13 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.contrib.auth.decorators import permission_required, login_required
 
 from blog.models import Article
 from catalog.models import Product, Category, Version
-from .forms import ProductForm, VersionFormSet
+from .forms import ProductForm, VersionFormSet, ModeratorProductForm
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -29,12 +30,20 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
-
-    form_class = ProductForm
+    permission_required = 'catalog.change_product'
 
     success_url = reverse_lazy("backoffice:backoffice")
+
+    def get_form_class(self):
+        user = self.request.user
+
+        if user.has_perm('catalog.set_active') and not user.is_superuser:
+            form_class = ModeratorProductForm
+        else:
+            form_class = ProductForm
+        return form_class
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -90,6 +99,8 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     extra_context = {"title": "Удаление товара"}
 
 
+@login_required
+@permission_required('catalog.set_active')
 def toggle_product_activity(request, pk):
     product_item = get_object_or_404(Product, pk=pk)
     product_item.is_active = not product_item.is_active
