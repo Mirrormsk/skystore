@@ -13,6 +13,10 @@ pip install -r requirements.txt
 ## Переменные окружения
 Переменные окружения должны находиться в файле `.env`. Посмотрите пример (`.env.example`) чтобы понять какие переменные нужно указать.
 
+Применить миграции:
+```bash
+python3 manage.py migrate
+```
 
 Заполнение товарами:
 ```bash
@@ -29,6 +33,11 @@ python3 manage.py fill_blog
 python3 manage.py csu
 ```
 
+Загрузить кастомные роли:
+Создать суперпользователя:
+```bash
+python3 manage.py loaddata perms_data.json
+```
 
 ## Использование
 
