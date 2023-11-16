@@ -1,1 +1,2 @@
 from catalog.services.user_messages import messages_saver
+from catalog.services.cache_funcs import get_all_model_instances_cached

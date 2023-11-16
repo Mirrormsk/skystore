@@ -10,9 +10,9 @@ from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
-
 from blog.models import Article
 from catalog.models import Product, Category, Version
+from catalog.services import get_all_model_instances_cached
 from .forms import (
     ProductForm,
     VersionFormSet,
@@ -30,7 +30,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     extra_context = {
         "title": "Создать новый продукт",
-        "categories": Category.objects.all(),
+        "categories": get_all_model_instances_cached(Category),
     }
 
     def form_valid(self, form):
@@ -68,7 +68,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         context_data = super().get_context_data(**kwargs)
 
         product = get_object_or_404(Product, pk=self.kwargs.get("pk"))
-        categories = Category.objects.all()
+        categories = get_all_model_instances_cached(Category)
 
         if self.request.method == "POST":
             formset = VersionFormSet(self.request.POST, instance=self.object)
@@ -141,7 +141,7 @@ class BackofficeProductListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context_data = super().get_context_data(**kwargs)
 
-        context_data["categories"] = Category.objects.all()
+        context_data["categories"] = get_all_model_instances_cached(Category)
         context_data["title"] = "Товары"
         context_data["nbar"] = "backoffice"
         context_data["selected_category_pk"] = int(self.request.POST.get("category", 0))
