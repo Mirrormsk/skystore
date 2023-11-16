@@ -128,12 +128,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_URL = reverse_lazy('users:login')
 
-CACHE_ENABLED = True
+CACHE_ENABLED = env('CACHE_ENABLED')
 
 if CACHE_ENABLED:
     CACHES = {
         "default": {
-            "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379",
+            "BACKEND": env('CACHE_BACKEND'),
+            "LOCATION": env('CACHE_LOCATION'),
         }
     }
