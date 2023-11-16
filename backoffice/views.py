@@ -1,15 +1,15 @@
 from django.contrib.auth.decorators import permission_required, login_required
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     PermissionRequiredMixin,
-    UserPassesTestMixin,
 )
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.http import HttpResponseForbidden, Http404
+from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+
 from blog.models import Article
 from catalog.models import Product, Category, Version
 from catalog.services import get_all_model_instances_cached
